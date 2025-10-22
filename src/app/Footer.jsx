@@ -1,4 +1,5 @@
 // Footer.jsx
+'use client'
 import React from "react";
 import { ImLinkedin } from "react-icons/im";
 import { FaGithub } from "react-icons/fa";
