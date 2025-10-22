@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import CategoryRows from './CategoryRows';
 
 export default function ProductsPage() {
@@ -9,7 +9,10 @@ export default function ProductsPage() {
             <div className='xl:px-25 lg:px-0 md:px-25'>
                 <h1 className="text-2xl font-bold mb-4">Products</h1>
             </div>
-            <CategoryRows />
+
+            <Suspense fallback={<div>Loading products...</div>}>
+                <CategoryRows />
+            </Suspense>
         </div>
     );
 }
