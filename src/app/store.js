@@ -3,6 +3,7 @@ import counterReducer from './features/counter/counterSlice.js'
 import productsReducer from './features/counter/productsSlice.js'
 import productsByCategoryReducer from './features/counter/categoryApiSlice.js'
 import brandsReducer from './features/counter/brandSlice.js'
+import searchedResultReducer from './features/counter/searchSlice.js'
 
 export const store = configureStore({
     reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
         productStore: productsReducer,
         productsCategory: productsByCategoryReducer,
         brandsCategory: brandsReducer,
+        searchedProducts: searchedResultReducer,
     },
 })

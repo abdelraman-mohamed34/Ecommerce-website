@@ -14,12 +14,13 @@ import {
     TabPanel,
     TabPanels,
 } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { BsTelephone } from "react-icons/bs";
-import ThemeSelect from './LangSelect';
+import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { navigation } from './data.js'
+import { CiLogin } from 'react-icons/ci';
+import { RxAvatar } from "react-icons/rx";
+import SearchButton from './Search.jsx';
 
 export default function Nav() {
 
@@ -143,12 +144,14 @@ export default function Nav() {
                         {/* btns */}
                         <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                             <div className="flow-root">
-                                <Link href="/signin" onClick={() => setOpen(false)} className="-m-2 block p-2 font-medium text-gray-900">
+                                <Link href="/signin" onClick={() => setOpen(false)} className="-m-2 p-2 font-medium text-gray-900 flex items-center gap-1">
+                                    <CiLogin />
                                     Sign in
                                 </Link>
                             </div>
                             <div className="flow-root">
-                                <Link href="/register" onClick={() => setOpen(false)} className="-m-2 block p-2 font-medium text-gray-900">
+                                <Link href="/register" onClick={() => setOpen(false)} className="-m-2 p-2 font-medium text-gray-900 flex items-center gap-1">
+                                    <RxAvatar />
                                     Create account
                                 </Link>
                             </div>
@@ -161,7 +164,7 @@ export default function Nav() {
             <header className="relative bg-white z-[1000]">
 
                 <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="sm:border-b border-gray-200">
+                    <div>
                         <div className="flex h-16 items-center">
                             <button
                                 type="button"
@@ -174,7 +177,7 @@ export default function Nav() {
                             </button>
 
                             {/* Logo */}
-                            <div className="ml-4 flex lg:ml-0">
+                            <div className="sm:ml-4 ml-1 flex lg:ml-0">
                                 <Link href="/">
                                     <span className="sr-only">Your Company</span>
                                     <img
@@ -283,7 +286,14 @@ export default function Nav() {
                                 </div>
                             </PopoverGroup>
 
+
                             <div className="ml-auto flex items-center">
+
+                                {/* Search btn */}
+                                <div className="flex lg:mr-5">
+                                    <SearchButton />
+                                </div>
+
                                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                                     <Link href="/signin" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         Sign in
@@ -294,17 +304,9 @@ export default function Nav() {
                                     </Link>
                                 </div>
 
-                                {/* Search */}
-                                <div className="flex lg:ml-6">
-                                    <Link href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Search</span>
-                                        <MagnifyingGlassIcon aria-hidden="true" className="size-6" />
-                                    </Link>
-                                </div>
-
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
-                                    <Link href="#" className="group -m-2 flex items-center p-2">
+                                    <Link href="/signin" className="group -m-2 flex items-center p-2">
                                         <ShoppingBagIcon
                                             aria-hidden="true"
                                             className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"

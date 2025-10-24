@@ -26,6 +26,7 @@ export default function Cards(props) {
     const filteredProducts = products.filter(product => product.category !== 'beauty')
 
     return (
+
         <section className="w-full py-10 px-5 lg:px-20 md:px-15 sm:p-10" ref={props.scrolled}>
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">Products</h2>
 

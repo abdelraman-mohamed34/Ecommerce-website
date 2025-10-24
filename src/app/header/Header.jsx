@@ -7,7 +7,7 @@ export default function Header() {
 
     return (
         <>
-            <div className="bg-white sticky top-0 shadow-md z-10">
+            <div className="bg-white shadow-md z-10">
                 <header className="relative bg-white z-[1000]">
                     <span className="flex sm:py-1 py-[5px] items-center sm:justify-between justify-center bg-green-900 px-4 text-xs font-medium text-white sm:px-6 lg:px-8">
                         <span className='items-center gap-2 sm:flex hidden'>

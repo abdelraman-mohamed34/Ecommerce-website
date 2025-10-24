@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
 import { Rating, Skeleton } from "@mui/material"
-import { FaCheckCircle } from "react-icons/fa";
 import { CiClock1 } from "react-icons/ci";
 import { useSearchParams } from 'next/navigation'
 import { fetchBrandProducts } from '../features/counter/brandSlice'
