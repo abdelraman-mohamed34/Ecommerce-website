@@ -99,7 +99,7 @@ export default function Footer({ theme = "light" }) {
                             {
                                 id: 1,
                                 name: "linkedIn",
-                                route: null,
+                                route: 'www.linkedin.com/in/abdelrhman-mohamed6673',
                                 icon: <ImLinkedin />,
                             },
                             {

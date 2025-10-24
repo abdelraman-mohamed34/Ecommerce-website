@@ -83,7 +83,7 @@ export default function PricingPage() {
                             whileHover={{ y: -10, scale: 1.02 }}
                             transition={{ type: 'spring', stiffness: 300 }}
                             className={classNames(
-                                tier.featured ? 'bg-gray-100 shadow-2xl' : 'bg-white',
+                                tier.featured ? 'bg-gray-100 shadow-2xl border-2 border-green-700' : 'bg-white',
                                 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10'
                             )}
                         >

@@ -41,16 +41,19 @@ export default function OrderSummary() {
             <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-3">Order Summary</h2>
 
             <div className='border-b border-gray-200 mb-5'>
-                <div className="flex items-center justify-between py-2 px-2 border bg-gray-100 border-gray-300 sm:rounded-3xl rounded-4xl mb-5 focus:ring-2 focus:ring-green-800">
+                <div className="flex items-center justify-between py-2 px-2 border bg-gray-100 border-gray-300 sm:rounded-3xl rounded-lg sm:mb-5 mb-1 focus:ring-2 focus:ring-green-800">
                     <input
                         type="text"
                         placeholder="Enter Coupon Code"
                         className="flex-1 px-3 py-2 rounded-xl focus:outline-none"
                     />
-                    <button className="sm:ml-2 sm:mr-0 -ml-3 px-4 py-2 text-xs cursor-pointer bg-green-900 text-white rounded-3xl hover:bg-green-950/90 transition whitespace-nowrap">
+                    <button className="sm:ml-2 sm:mr-0  sm:flex hidden -ml-3 px-4 py-2 text-xs cursor-pointer bg-green-900 text-white rounded-3xl hover:bg-green-950/90 transition whitespace-nowrap">
                         Apply coupon
                     </button>
                 </div>
+                <button className="sm:hidden flex justify-center px-4 mb-5 py-2 w-full text-xs cursor-pointer bg-green-900 text-white rounded-lg hover:bg-green-950/90 transition whitespace-nowrap">
+                    Apply coupon
+                </button>
             </div>
 
 
@@ -63,13 +66,16 @@ export default function OrderSummary() {
                             alt={product.title}
                             className="w-16 h-16 object-cover rounded-lg bg-gray-200"
                         />
+
                         <div className="flex-1">
                             <h3 className="text-sm font-medium text-gray-700 truncate w-full">
                                 {product.title}
                             </h3>
                             <p className="text-sm text-gray-500">{product.brand}</p>
+                            <p className="sm:hidden flex text-sm font-semibold text-gray-900">${product.price}</p>
                         </div>
-                        <p className="text-sm font-semibold text-gray-900">${product.price}</p>
+                        <p className="sm:flex hidden text-sm font-semibold text-gray-900">${product.price}</p>
+
                     </div>
 
                     {/* Quantity */}

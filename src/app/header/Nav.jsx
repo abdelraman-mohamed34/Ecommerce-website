@@ -88,7 +88,7 @@ export default function Nav() {
                                                             src={item.imageSrc}
                                                             className="aspect-square w-full rounded-lg bg-gray-100 object-cover group-hover:opacity-75"
                                                         />
-                                                        <Link onClick={()=>setOpen(false)} href={item.href} className="mt-6 block font-medium text-gray-900" >
+                                                        <Link onClick={() => setOpen(false)} href={item.href} className="mt-6 block font-medium text-gray-900" >
                                                             <span aria-hidden="true" className="absolute inset-0 z-10" />
                                                             {item.name}
                                                         </Link>
@@ -143,29 +143,17 @@ export default function Nav() {
                         {/* btns */}
                         <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                             <div className="flow-root">
-                                <Link href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                                <Link href="/signin" onClick={() => setOpen(false)} className="-m-2 block p-2 font-medium text-gray-900">
                                     Sign in
                                 </Link>
                             </div>
                             <div className="flow-root">
-                                <Link href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                                <Link href="/register" onClick={() => setOpen(false)} className="-m-2 block p-2 font-medium text-gray-900">
                                     Create account
                                 </Link>
                             </div>
                         </div>
 
-                        {/* mobile only */}
-                        <div className="border-t border-gray-200 px-4 py-6">
-                            <Link href="#" className="-m-2 flex items-center p-2">
-                                <img
-                                    alt=""
-                                    src="https://tailwindcss.com/plus-assets/img/flags/flag-canada.svg"
-                                    className="block h-auto w-5 shrink-0"
-                                />
-                                <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
-                                <span className="sr-only">, change currency</span>
-                            </Link>
-                        </div>
                     </DialogPanel>
                 </div>
             </Dialog >
@@ -297,11 +285,11 @@ export default function Nav() {
 
                             <div className="ml-auto flex items-center">
                                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                    <Link href="/signin" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         Sign in
                                     </Link>
                                     <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                                    <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                    <Link href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         Create account
                                     </Link>
                                 </div>

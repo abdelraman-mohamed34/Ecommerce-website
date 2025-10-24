@@ -59,7 +59,7 @@ function MainContainer(props) {
                     </div>
                 </motion.div>
             </motion.div>
-            <section className="mt-10 flex gap-6 overflow-x-auto sm:px-0 px-5 h-60 w-full overflow-y-hidden py-4 xl:justify-center">
+            <section className="mt-10 lg:grid lg:grid-cols-3 flex gap-2 overflow-x-auto sm:px-0 px-2 sm:h-60 h-50 w-full overflow-y-hidden">
                 {categories.map((cat, i) => (
                     <motion.div
                         key={i}
@@ -67,12 +67,12 @@ function MainContainer(props) {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.2 }}
                         onClick={() => handleRoute(cat.prop)}
-                        className="relative rounded-xl overflow-hidden group cursor-pointer min-w-[18rem] flex-shrink-0"
+                        className="relative rounded-xl overflow-hidden group cursor-pointer min-w-[20rem] flex-shrink-0"
                     >
                         <img
                             src={cat.img}
                             alt={cat.name}
-                            className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <h3 className="text-white text-xl font-semibold">{cat.name}</h3>
