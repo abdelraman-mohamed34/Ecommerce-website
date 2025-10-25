@@ -68,7 +68,7 @@ export default function Nav() {
                                     {navigation.categories.map((category) => (
                                         <Tab
                                             key={category.name}
-                                            className={`flex-1 border-b-2 border-transparent px-1 py-4 text-base font-medium whitespace-nowrap ${theme.text} data-selected:border-indigo-300 data-selected:text-indigo-300`}
+                                            className={`flex-1 border-b-2 border-transparent px-1 py-4 text-base font-medium whitespace-nowrap ${theme.text} data-selected:border-green-300 data-selected:text-green-300`}
                                         >
                                             {category.name}
                                         </Tab>
@@ -172,7 +172,7 @@ export default function Nav() {
                                     <span className="sr-only">Your Company</span>
                                     <img
                                         alt=""
-                                        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                                        src="/favicon.png"
                                         className="h-8 w-auto"
                                     />
                                 </Link>
@@ -184,11 +184,11 @@ export default function Nav() {
                                     {navigation.categories.map((category) => (
                                         <Popover key={category.name} className="flex">
                                             <div className="relative flex">
-                                                <PopoverButton className={`group relative flex items-center justify-center text-sm font-medium ${theme.text} ${theme.textHover} transition-colors duration-200 ease-out data-open:text-indigo-600`}>
+                                                <PopoverButton className={`group relative flex items-center justify-center text-sm font-medium ${theme.text} ${theme.textHover} transition-colors duration-200 ease-out data-open:text-green-600`}>
                                                     {category.name}
                                                     <span
                                                         aria-hidden="true"
-                                                        className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-open:bg-indigo-600"
+                                                        className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-open:bg-green-600"
                                                     />
                                                 </PopoverButton>
                                             </div>

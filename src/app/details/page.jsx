@@ -58,7 +58,7 @@ export default function Details() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="grid md:grid-cols-2 grid-cols-1 gap-6 rounded-lg overflow-hidden"
+                    className="grid md:grid-cols-2 grid-cols-1 gap-6 sm:rounded-lg overflow-hidden"
                 >
                     {/* Image */}
                     <div className='h-full'>
@@ -72,7 +72,7 @@ export default function Details() {
                                 transition={{ duration: 0.3 }}
                             />
                         ) : (
-                            <Skeleton variant="rectangular" height='100%' className="w-full rounded-lg" />
+                            <Skeleton variant="rectangular" height='100%' className="w-full sm:rounded-lg" />
                         )}
                     </div>
 

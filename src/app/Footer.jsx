@@ -79,7 +79,7 @@ export default function Footer() {
                             {
                                 id: 1,
                                 name: "linkedIn",
-                                route: 'www.linkedin.com/in/abdelrhman-mohamed667',
+                                route: 'https://www.linkedin.com/in/abdelrhman-mohamed667',
                                 icon: <ImLinkedin />,
                             },
                             {

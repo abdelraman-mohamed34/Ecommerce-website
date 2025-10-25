@@ -117,7 +117,7 @@ export default function PricingPage() {
                                 className={classNames(
                                     tier.featured
                                         ? 'mt-8 block w-full rounded-md bg-green-900 px-3.5 py-2.5 text-center text-white font-semibold shadow hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500'
-                                        : 'mt-8 block w-full rounded-md border border-indigo-200 px-3.5 py-2.5 text-center text-green-700 font-semibold hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500'
+                                        : 'mt-8 block w-full rounded-md border border-green-200 px-3.5 py-2.5 text-center text-green-700 font-semibold hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500'
                                 )}
                             >
                                 Get started today
