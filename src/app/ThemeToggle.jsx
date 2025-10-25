@@ -8,23 +8,35 @@ export default function ThemeToggle() {
     const dispatch = useDispatch()
     const themeSlice = useSelector((state) => state.theme.color)
 
-    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light')
+    const [theme, setTheme] = useState('light')
+    const [mounted, setMounted] = useState(false)
 
-    // تحديث Redux عند تغير الثيم
+    // Load theme from localStorage after mount
     useEffect(() => {
-        dispatch(setColor(theme))
-    }, [theme, dispatch])
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') || 'light'
+            setTheme(savedTheme)
+        }
+        setMounted(true)
+    }, [])
 
-    // تطبيق الثيم على الـ body وحفظه
+    // Update Redux when theme changes
     useEffect(() => {
-        localStorage.setItem('theme', themeSlice)
-        document.body.classList.remove('light', 'dark')
-        document.body.classList.add(themeSlice)
-    }, [themeSlice])
+        if (mounted) dispatch(setColor(theme))
+    }, [theme, dispatch, mounted])
 
-    const toggleTheme = () => {
-        setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
-    }
+    // Apply theme to body and save to localStorage
+    useEffect(() => {
+        if (mounted) {
+            localStorage.setItem('theme', theme)
+            document.body.classList.remove('light', 'dark')
+            document.body.classList.add(theme)
+        }
+    }, [theme, mounted])
+
+    if (!mounted) return null // Prevent render on SSR
+
+    const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
 
     return (
         <div className="flex items-center justify-center">

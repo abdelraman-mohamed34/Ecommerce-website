@@ -4,43 +4,42 @@ import { setColor } from '../features/counter/themeSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function ThemeSelect() {
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem('theme') || 'light'
-    })
-
-    const [lang, setLang] = useState('English')
-
-    const themeSlice = useSelector((theme) => theme.theme.color)
     const dispatch = useDispatch()
+    const themeSlice = useSelector((state) => state.theme.color)
+
+    const [theme, setTheme] = useState('light')
+    const [mounted, setMounted] = useState(false) // لتجنب SSR
 
     useEffect(() => {
-        dispatch(setColor(theme))
-    }, [theme])
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') || 'light'
+            setTheme(savedTheme)
+        }
+        setMounted(true)
+    }, [])
 
     useEffect(() => {
-        localStorage.setItem('theme', themeSlice)
-        console.log('Theme in Redux:', themeSlice)
-        document.body.classList.remove('light', 'dark')
-        document.body.classList.add(themeSlice)
-    }, [themeSlice])
+        if (mounted) {
+            dispatch(setColor(theme))
+        }
+    }, [theme, dispatch, mounted])
+
+    useEffect(() => {
+        if (mounted) {
+            localStorage.setItem('theme', theme)
+            document.body.classList.remove('light', 'dark')
+            document.body.classList.add(theme)
+        }
+    }, [theme, mounted])
+
+    if (!mounted) return null
 
     return (
         <div className="relative text-left flex items-center gap-3">
-            {/* <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value)}
-                className="block rounded-md
-                  py-2 pr-3 text-sm font-medium"
-            >
-                <option value="english" className='text-black'>English</option>
-                <option value="arabic" className='text-black'>Arabic</option>
-            </select> */}
-
             <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value)}
-                className="block rounded-md
-                  py-2 pr-3 text-sm font-medium"
+                className="block rounded-md py-2 pr-3 text-sm font-medium"
             >
                 <option value="light" className='text-black'>Light</option>
                 <option value="dark" className='text-black'>Dark</option>
