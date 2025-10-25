@@ -3,12 +3,13 @@
 import { motion } from 'framer-motion'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
+import { useSelector } from 'react-redux'
 
 const tiers = [
     {
         name: 'Hobby',
         id: 'tier-hobby',
-        href: '/payment',
+        href: '/signin',
         priceMonthly: '$29',
         description: "The perfect plan if you're just getting started with our product.",
         features: ['25 products', 'Up to 10,000 subscribers', 'Advanced analytics', '24-hour support response time'],
@@ -17,7 +18,7 @@ const tiers = [
     {
         name: 'Enterprise',
         id: 'tier-enterprise',
-        href: '/payment',
+        href: '/signin',
         priceMonthly: '$99',
         description: 'Dedicated support and infrastructure for your company.',
         features: [
@@ -37,6 +38,10 @@ function classNames(...classes) {
 }
 
 export default function PricingPage() {
+
+    const colors = useSelector(state => state.theme)
+    const theme = colors.colors[colors.color]
+
     return (
         <div className='relative w-full h-full flex'>
             {/* <img className='w-full h-full object-cover fixed left-0 top-0 z-1' src="https://media.istockphoto.com/id/2172774772/photo/3d-rendering-of-purple-and-blue-abstract-fluid-background-scene-for-advertising-technology.webp?a=1&b=1&s=612x612&w=0&k=20&c=S7D6_4XRnXdtZ3LD4pCdRYLGgabgRs3EZzWKrVFFOh8=" alt="" /> */}
@@ -61,7 +66,7 @@ export default function PricingPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.2 }}
-                        className="mt-2 text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl"
+                        className={`mt-2 text-5xl font-semibold tracking-tight ${theme.text} sm:text-6xl`}
                     >
                         Choose the right plan for you
                     </motion.p>
@@ -69,7 +74,7 @@ export default function PricingPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1.4 }}
-                        className="mx-auto mt-6 max-w-2xl text-lg text-gray-600 sm:text-xl"
+                        className={`mx-auto mt-6 max-w-2xl text-lg ${theme.secondText} sm:text-xl`}
                     >
                         Affordable plans packed with the best features for engaging your audience, creating customer loyalty, and driving sales.
                     </motion.p>
@@ -83,7 +88,7 @@ export default function PricingPage() {
                             whileHover={{ y: -10, scale: 1.02 }}
                             transition={{ type: 'spring', stiffness: 300 }}
                             className={classNames(
-                                tier.featured ? 'bg-gray-100 shadow-2xl border-2 border-green-700' : 'bg-white',
+                                tier.featured ? `bg-gray-100 shadow-2xl border-2 border-green-700 ${theme.cardBg}` : theme.cardBg,
                                 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10'
                             )}
                         >
@@ -91,17 +96,17 @@ export default function PricingPage() {
                                 {tier.name}
                             </h3>
                             <p className="mt-4 flex items-baseline gap-x-2">
-                                <span className={classNames(tier.featured ? 'text-gray-900' : 'text-gray-900', 'text-5xl font-semibold')}>
+                                <span className={classNames(theme.text, 'text-5xl font-semibold')}>
                                     {tier.priceMonthly}
                                 </span>
-                                <span className={classNames(tier.featured ? 'text-gray-500' : 'text-gray-500', 'text-base')}>/month</span>
+                                <span className={classNames(theme.secondText, 'text-base')}>/month</span>
                             </p>
-                            <p className={classNames(tier.featured ? 'text-gray-700' : 'text-gray-600', 'mt-6 text-base')}>
+                            <p className={classNames(theme.disText, 'mt-6 text-base')}>
                                 {tier.description}
                             </p>
                             <ul className={classNames(tier.featured ? 'text-gray-700' : 'text-gray-600', 'mt-8 space-y-3 text-sm')}>
                                 {tier.features.map((feature) => (
-                                    <li key={feature} className="flex gap-x-3">
+                                    <li key={feature} className={`flex gap-x-3 ${theme.text}`}>
                                         <CheckIcon className={classNames(tier.featured ? 'text-green-800' : 'text-green-900', 'h-6 w-5 flex-none')} />
                                         {feature}
                                     </li>

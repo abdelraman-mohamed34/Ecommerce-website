@@ -21,32 +21,33 @@ import { navigation } from './data.js'
 import { CiLogin } from 'react-icons/ci';
 import { RxAvatar } from "react-icons/rx";
 import SearchButton from './Search.jsx';
+import { useSelector } from 'react-redux';
+import ThemeToggle from '../ThemeToggle.jsx';
 
 export default function Nav() {
-
     const router = useRouter()
     const [open, setOpen] = useState(false)
+
+    const { colors, color } = useSelector((state) => state.theme)
+    const theme = colors[color]
 
     const handleNavigation = (type, prop) => {
         if (type === 'brand') {
             router.push(`/brand?brand=${prop}`)
+        } else if (type === 'category') {
+            router.push(`/category?name=${prop}`);
         }
-        else if (type === 'category') { router.push(`/category?name=${prop}`); }
     }
 
     return (
-        <div className="bg-white sticky top-0 shadow-md z-10">
+        <div className={`${theme.bg} sticky top-0 shadow-md z-10`}>
+
             {/* Mobile menu */}
-            <Dialog open={open} onClose={setOpen} className="relative z-40 lg:hidden">
-                <DialogBackdrop
-                    transition
-                    className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-closed:opacity-0"
-                />
+            <Dialog open={open} onClose={setOpen} className="relative z-[2000] lg:hidden">
+                <DialogBackdrop className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-closed:opacity-0" />
                 <div className="fixed inset-0 z-40 flex">
-                    <DialogPanel
-                        transition
-                        className="relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-closed:-translate-x-full"
-                    >
+                    <DialogPanel className={`relative flex w-full max-w-xs transform flex-col ${theme.bg} overflow-y-auto pb-12 shadow-xl transition duration-300 ease-in-out data-closed:-translate-x-full`}>
+
                         {/* mobile menu btn */}
                         <div className="flex px-4 pt-5 pb-2">
                             <button
@@ -60,16 +61,14 @@ export default function Nav() {
                             </button>
                         </div>
 
-                        {/* Links  */}
+                        {/* Links */}
                         <TabGroup className="mt-2">
-
-                            {/* title | women or men in nav main*/}
                             <div className="border-b border-gray-200">
                                 <TabList className="-mb-px flex space-x-8 px-4 overflow-x-auto">
                                     {navigation.categories.map((category) => (
                                         <Tab
                                             key={category.name}
-                                            className="flex-1 border-b-2 border-transparent px-1 py-4 text-base font-medium whitespace-nowrap text-gray-900 data-selected:border-indigo-600 data-selected:text-indigo-600"
+                                            className={`flex-1 border-b-2 border-transparent px-1 py-4 text-base font-medium whitespace-nowrap ${theme.text} data-selected:border-indigo-300 data-selected:text-indigo-300`}
                                         >
                                             {category.name}
                                         </Tab>
@@ -79,7 +78,7 @@ export default function Nav() {
 
                             <TabPanels as={Fragment}>
                                 {navigation.categories.map((category) => (
-                                    <TabPanel key={category.name} className={category?.featured ? "space-y-10 px-4 pt-10 pb-8" : "space-y-10 px-4 pt-10 pb-8"}>
+                                    <TabPanel key={category.name} className="space-y-10 px-4 pt-10 pb-8">
                                         {category.featured && (
                                             <div className="grid grid-cols-2 gap-x-4">
                                                 {category.featured.map((item) => (
@@ -89,11 +88,11 @@ export default function Nav() {
                                                             src={item.imageSrc}
                                                             className="aspect-square w-full rounded-lg bg-gray-100 object-cover group-hover:opacity-75"
                                                         />
-                                                        <Link onClick={() => setOpen(false)} href={item.href} className="mt-6 block font-medium text-gray-900" >
+                                                        <Link onClick={() => setOpen(false)} href={item.href} className={`mt-6 block font-medium ${theme.secondText}`}>
                                                             <span aria-hidden="true" className="absolute inset-0 z-10" />
                                                             {item.name}
                                                         </Link>
-                                                        <p aria-hidden="true" className="mt-1">
+                                                        <p aria-hidden="true" className={`mt-1 ${theme.text}`}>
                                                             Shop now
                                                         </p>
                                                     </div>
@@ -103,15 +102,8 @@ export default function Nav() {
 
                                         {category.sections.map((section) => (
                                             <div key={section.name}>
-                                                <p id={`${category.id}-${section.id}-heading-mobile`} className="font-medium text-gray-900">
-                                                    {section.name}
-                                                </p>
-                                                <ul
-                                                    role="list"
-                                                    aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                                                    className="mt-6 flex flex-col space-y-6"
-                                                >
-                                                    {/* for mobile */}
+                                                <p className={`font-medium ${theme.secondText}`}>{section.name}</p>
+                                                <ul className="mt-6 flex flex-col space-y-6">
                                                     {section.items.map((item) => (
                                                         <li
                                                             key={item.name}
@@ -119,8 +111,7 @@ export default function Nav() {
                                                             onClick={() => {
                                                                 if (section.name.toLowerCase() === 'brands') {
                                                                     handleNavigation('brand', item.prop)
-                                                                }
-                                                                else {
+                                                                } else {
                                                                     handleNavigation('category', item.prop);
                                                                     setOpen(false)
                                                                 }
@@ -130,7 +121,6 @@ export default function Nav() {
                                                                 {item.name}
                                                             </span>
                                                         </li>
-
                                                     ))}
                                                 </ul>
                                             </div>
@@ -138,38 +128,38 @@ export default function Nav() {
                                     </TabPanel>
                                 ))}
                             </TabPanels>
-
                         </TabGroup>
 
                         {/* btns */}
                         <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                             <div className="flow-root">
-                                <Link href="/signin" onClick={() => setOpen(false)} className="-m-2 p-2 font-medium text-gray-900 flex items-center gap-1">
-                                    <CiLogin />
-                                    Sign in
+                                <Link href="/signin" onClick={() => setOpen(false)} className={`flex items-center gap-1 -m-2 p-2 font-medium ${theme.secondText}`}>
+                                    <CiLogin /> Sign in
                                 </Link>
                             </div>
                             <div className="flow-root">
-                                <Link href="/register" onClick={() => setOpen(false)} className="-m-2 p-2 font-medium text-gray-900 flex items-center gap-1">
-                                    <RxAvatar />
-                                    Create account
+                                <Link href="/register" onClick={() => setOpen(false)} className={`flex items-center gap-1 -m-2 p-2 font-medium ${theme.secondText}`}>
+                                    <RxAvatar /> Create account
                                 </Link>
                             </div>
+                        </div>
+
+                        <div className='w-full flex justify-start items-center border-t border-gray-100 pt-3 px-5'>
+                            <ThemeToggle />
                         </div>
 
                     </DialogPanel>
                 </div>
             </Dialog >
 
-            <header className="relative bg-white z-[1000]">
-
+            <header className={`relative ${theme.cardBg} z-[1000]`}>
                 <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div>
                         <div className="flex h-16 items-center">
                             <button
                                 type="button"
                                 onClick={() => setOpen(true)}
-                                className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
+                                className="relative rounded-md p-2 text-gray-400 lg:hidden"
                             >
                                 <span className="absolute -inset-0.5" />
                                 <span className="sr-only">Open menu</span>
@@ -194,7 +184,7 @@ export default function Nav() {
                                     {navigation.categories.map((category) => (
                                         <Popover key={category.name} className="flex">
                                             <div className="relative flex">
-                                                <PopoverButton className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-open:text-indigo-600 focus:outline-none">
+                                                <PopoverButton className={`group relative flex items-center justify-center text-sm font-medium ${theme.text} ${theme.textHover} transition-colors duration-200 ease-out data-open:text-indigo-600`}>
                                                     {category.name}
                                                     <span
                                                         aria-hidden="true"
@@ -202,14 +192,11 @@ export default function Nav() {
                                                     />
                                                 </PopoverButton>
                                             </div>
-                                            <PopoverPanel
-                                                transition
-                                                className="absolute inset-x-0 top-full z-20 w-full bg-white text-sm text-gray-500 transition data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-                                            >
+                                            <PopoverPanel className={`absolute inset-x-0 top-full z-20 w-full ${theme.bg} text-sm ${theme.text} transition data-closed:opacity-0`}>
                                                 {({ close }) => (
                                                     <>
-                                                        <div aria-hidden="true" className="absolute inset-0 top-1/2 bg-white shadow-sm" />
-                                                        <div className="relative bg-white">
+                                                        <div aria-hidden="true" className={`absolute inset-0 top-1/2 shadow-sm ${theme.bg}`} />
+                                                        <div className={`relative ${theme.bg}`}>
                                                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                                                 <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                                                     <div className="col-start-2 grid grid-cols-2 gap-x-8">
@@ -238,27 +225,19 @@ export default function Nav() {
                                                                     <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
                                                                         {category.sections.map((section) => (
                                                                             <div key={section.name}>
-                                                                                <p id={`${section.name}-heading`} className="font-medium text-gray-900">
-                                                                                    {section.name}
-                                                                                </p>
-                                                                                <ul
-                                                                                    role="list"
-                                                                                    aria-labelledby={`${section.name}-heading`}
-                                                                                    className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                                                                >
+                                                                                <p className={`${theme.text} font-medium`}>{section.name}</p>
+                                                                                <ul className="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
                                                                                     {section.items.map((item) => (
                                                                                         <li
                                                                                             key={item.name}
-                                                                                            className="flex cursor-pointer"
+                                                                                            className={` ${theme.secondText} cursor-pointer`}
                                                                                             onClick={() => {
                                                                                                 if (section.name.toLowerCase() === 'brands') handleNavigation('brand', item.prop);
                                                                                                 else handleNavigation('category', item.prop);
                                                                                                 close();
                                                                                             }}
                                                                                         >
-                                                                                            <p className="hover:text-gray-800">
-                                                                                                {item.name}
-                                                                                            </p>
+                                                                                            <p className={`${theme.textHover}`}>{item.name}</p>
                                                                                         </li>
                                                                                     ))}
                                                                                 </ul>
@@ -271,14 +250,13 @@ export default function Nav() {
                                                     </>
                                                 )}
                                             </PopoverPanel>
-
                                         </Popover>
                                     ))}
                                     {navigation.pages.map((page) => (
                                         <Link
                                             key={page.name}
                                             href={page.href}
-                                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                                            className={`flex items-center text-sm font-medium ${theme.secondText} ${theme.textHover}`}
                                         >
                                             {page.name}
                                         </Link>
@@ -286,20 +264,18 @@ export default function Nav() {
                                 </div>
                             </PopoverGroup>
 
-
                             <div className="ml-auto flex items-center">
-
                                 {/* Search btn */}
                                 <div className="flex lg:mr-5">
                                     <SearchButton />
                                 </div>
 
                                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <Link href="/signin" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                    <Link href="/signin" className={`text-sm font-medium ${theme.secondText} ${theme.textHover}`}>
                                         Sign in
                                     </Link>
                                     <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                                    <Link href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                    <Link href="/register" className={`text-sm font-medium ${theme.secondText} ${theme.textHover}`}>
                                         Create account
                                     </Link>
                                 </div>
@@ -318,9 +294,8 @@ export default function Nav() {
                             </div>
                         </div>
                     </div>
-                </nav >
-
-            </header >
+                </nav>
+            </header>
         </div >
     )
 }

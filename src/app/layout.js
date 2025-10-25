@@ -2,7 +2,7 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./store";
 import Header from "./header/Header";
 import Footer from "./Footer";
@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body

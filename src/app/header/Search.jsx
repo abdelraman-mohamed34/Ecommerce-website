@@ -5,6 +5,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
 export default function SearchButton() {
     const [showInput, setShowInput] = useState(true)
@@ -65,11 +66,15 @@ export default function SearchButton() {
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [])
 
+
+    const { colors, color } = useSelector((state) => state.theme);
+    const theme = colors[color];
+
     return (
         <div className='relative w-full lg:w-80 ml-5'>
             <div
                 ref={containerRef}
-                className="flex items-center bg-white border border-gray-300 rounded-full shadow-sm overflow-hidden transition-all duration-300"
+                className={`flex items-center ${theme.bg} border border-gray-300 rounded-full shadow-sm overflow-hidden transition-all duration-300`}
                 onClick={() => setShowInput(true)}
             >
                 <AnimatePresence>
@@ -86,7 +91,7 @@ export default function SearchButton() {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Search for products..."
-                            className="px-4 py-2 text-sm text-gray-700 bg-transparent outline-none w-full"
+                            className={`px-4 py-2 text-sm ${theme.text} bg-transparent outline-none w-full`}
                         />
                     </motion.form>
                 </AnimatePresence>
@@ -104,13 +109,14 @@ export default function SearchButton() {
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
-                        className="absolute top-full left-0 right-0 bg-white border border-gray-300 mt-1 rounded-md shadow-lg max-h-80 sm:max-h-64 overflow-y-auto z-50 w-full sm:w-auto"
+                        className={`absolute top-full left-0 right-0 ${theme.bg} border border-gray-300 mt-1 rounded-md shadow-lg max-h-80 sm:max-h-64 overflow-y-auto z-50 w-full sm:w-auto`}
                     >
                         {results.map(product => (
                             <li
                                 key={product.id}
                                 onClick={() => handleSelectResult(product)}
-                                className="flex items-center px-4 py-3 sm:py-2 hover:bg-gray-100 cursor-pointer transition-colors"
+                                className={`flex items-center px-4 py-3 sm:py-2 cursor-pointer transition-colors 
+                    ${theme.text} hover:${theme.textHover} ${theme.hover}`}
                             >
                                 <img
                                     src={product.thumbnail}
@@ -118,14 +124,16 @@ export default function SearchButton() {
                                     className="w-12 h-12 sm:w-10 sm:h-10 object-cover rounded mr-3"
                                 />
                                 <div className="flex flex-col">
-                                    <span className="font-medium text-gray-800 text-sm sm:text-base">{product.title}</span>
-                                    <span className="text-gray-500 text-xs sm:text-sm">${product.price}</span>
+                                    <span className={`font-medium text-sm sm:text-base ${theme.text}`}>
+                                        {product.title}
+                                    </span>
+                                    <span className={`text-xs sm:text-sm ${theme.text}`}>${product.price}</span>
                                 </div>
                             </li>
                         ))}
                     </motion.ul>
-
                 )}
+
             </div>
 
 

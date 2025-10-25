@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from "react"
 import { motion } from "framer-motion"
+import { useSelector } from "react-redux"
 
 export default function CustomerSupportForm() {
     const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ export default function CustomerSupportForm() {
     })
     const [submitted, setSubmitted] = useState(false)
     const [errors, setErrors] = useState({})
+
+    // 🧩 Get theme from Redux
+    const theme = useSelector((state) => state.theme)
+    const currentColors = theme.colors[theme.color]
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -39,6 +44,7 @@ export default function CustomerSupportForm() {
         console.log(formData)
         setSubmitted(true)
         setFormData({ name: "", email: "", subject: "", message: "" })
+        setTimeout(() => setSubmitted(false), 4000)
     }
 
     const formVariants = {
@@ -52,17 +58,17 @@ export default function CustomerSupportForm() {
     }
 
     return (
-        <section className="min-h-screen bg-gray-50 py-16 flex items-center justify-center">
+        <section className={`min-h-screen py-16 flex items-center justify-center transition-all duration-500 ${currentColors.bg}`}>
             <div className="max-w-7xl w-full grid sm:grid-cols-2 gap-10 px-6 lg:px-12">
                 {/* Form Section */}
                 <motion.div
                     initial="hidden"
                     animate="visible"
                     variants={formVariants}
-                    className="bg-white rounded-2xl shadow-md p-8 flex flex-col justify-center"
+                    className={`${currentColors.cardBg} rounded-2xl shadow-md p-8 flex flex-col justify-center border ${theme.color === 'dark' ? 'border-green-800' : 'border-gray-200'}`}
                 >
-                    <h2 className="text-3xl font-bold text-gray-900 mb-4">Customer Support</h2>
-                    <p className="text-gray-600 mb-6">
+                    <h2 className={`text-3xl font-bold mb-4 ${currentColors.text}`}>Customer Support</h2>
+                    <p className={`${currentColors.cardBrand} mb-6`}>
                         We’re here to help! Please fill out the form below to share your complaint or issue.
                         Our support team will respond as soon as possible.
                     </p>
@@ -81,13 +87,13 @@ export default function CustomerSupportForm() {
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Name */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <label className={`block text-sm font-medium mb-1 ${currentColors.text}`}>Full Name</label>
                             <input
                                 type="text"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none"
+                                className={`w-full border ${theme.color === 'dark' ? 'border-green-700 text-white placeholder-gray-400' : 'border-gray-300 text-gray-900 bg-white'} rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none`}
                                 placeholder="Your name"
                             />
                             {errors.name && (
@@ -103,13 +109,13 @@ export default function CustomerSupportForm() {
 
                         {/* Email */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <label className={`block text-sm font-medium mb-1 ${currentColors.text}`}>Email</label>
                             <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none"
+                                className={`w-full border ${theme.color === 'dark' ? 'border-green-700 text-white placeholder-gray-400' : 'border-gray-300 text-gray-900 bg-white'} rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none`}
                                 placeholder="you@example.com"
                             />
                             {errors.email && (
@@ -125,13 +131,13 @@ export default function CustomerSupportForm() {
 
                         {/* Subject */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                            <label className={`block text-sm font-medium mb-1 ${currentColors.text}`}>Subject</label>
                             <input
                                 type="text"
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none"
+                                className={`w-full border ${theme.color === 'dark' ? 'border-green-700 text-white placeholder-gray-400' : 'border-gray-300 text-gray-900 bg-white'} rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none`}
                                 placeholder="Issue subject"
                             />
                             {errors.subject && (
@@ -147,13 +153,13 @@ export default function CustomerSupportForm() {
 
                         {/* Message */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <label className={`block text-sm font-medium mb-1 ${currentColors.text}`}>Message</label>
                             <textarea
                                 name="message"
                                 value={formData.message}
                                 onChange={handleChange}
                                 rows="5"
-                                className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none"
+                                className={`w-full border ${theme.color === 'dark' ? 'border-green-700 text-white placeholder-gray-400' : 'border-gray-300 text-gray-900 bg-white'} rounded-lg p-2.5 focus:ring-2 focus:ring-green-700 focus:outline-none`}
                                 placeholder="Describe your issue..."
                             ></textarea>
                             {errors.message && (

@@ -1,10 +1,14 @@
 'use client'
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 
 export default function About() {
+    const theme = useSelector((state) => state.theme)
+    const currentColors = theme.colors[theme.color]
+
     return (
-        <section className="bg-gray-50 py-16 min-h-screen text-gray-800">
+        <section className={`${currentColors.bg} py-16 min-h-screen ${currentColors.text} transition-colors duration-500`}>
             <div className="max-w-6xl mx-auto px-6 lg:px-8">
                 {/* Header */}
                 <motion.div
@@ -13,10 +17,8 @@ export default function About() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-12"
                 >
-                    <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-                        About Our Store
-                    </h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <h1 className={`text-4xl font-extrabold mb-4 ${currentColors.text}`}>About Our Store</h1>
+                    <p className={`text-lg max-w-2xl mx-auto ${currentColors.cardBrand}`}>
                         We’re more than just a store — we’re a growing family of creators, innovators,
                         and dreamers passionate about delivering quality products and experiences.
                     </p>
@@ -41,15 +43,15 @@ export default function About() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3">Our Mission</h2>
-                        <p className="text-gray-600 mb-4">
+                        <h2 className={`text-2xl font-bold mb-3 ${currentColors.text}`}>Our Mission</h2>
+                        <p className={`${currentColors.cardBrand} mb-4`}>
                             Our mission is to connect people with premium products at fair prices,
                             while ensuring sustainability and innovation in everything we do.
                         </p>
 
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3">Our Vision</h2>
-                        <p className="text-gray-600">
-                            We aim to be one of the most trusted online marketplaces in the region —
+                        <h2 className={`text-2xl font-bold mb-3 ${currentColors.text}`}>Our Vision</h2>
+                        <p className={currentColors.cardBrand}>
+                            We aim to be one of the most trusted online marketplaces in the region — 
                             a place where quality, creativity, and technology come together for a better shopping experience.
                         </p>
                     </motion.div>
@@ -62,7 +64,7 @@ export default function About() {
                     transition={{ duration: 0.6 }}
                     className="mt-20"
                 >
-                    <h2 className="text-3xl font-bold text-gray-900 text-center mb-10">
+                    <h2 className={`text-3xl font-bold text-center mb-10 ${currentColors.text}`}>
                         Our Core Values
                     </h2>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -91,15 +93,15 @@ export default function About() {
                             <motion.div
                                 key={i}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center"
+                                className={`${currentColors.cardBg} p-6 rounded-xl shadow hover:shadow-lg transition text-center`}
                             >
                                 <img
                                     src={v.img}
                                     alt={v.title}
                                     className="w-full h-40 object-cover rounded-lg mb-4"
                                 />
-                                <h3 className="text-lg font-semibold text-gray-900 mb-2">{v.title}</h3>
-                                <p className="text-gray-600 text-sm">{v.desc}</p>
+                                <h3 className={`text-lg font-semibold mb-2 ${currentColors.cardText}`}>{v.title}</h3>
+                                <p className={`${currentColors.cardBrand} text-sm`}>{v.desc}</p>
                             </motion.div>
                         ))}
                     </div>

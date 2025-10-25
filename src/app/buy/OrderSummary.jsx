@@ -31,23 +31,30 @@ export default function OrderSummary() {
         { id: 'mastercard', icon: <RiMastercardFill /> },
         { id: 'paypal', icon: <FaPaypal /> },
     ]
+
+    const { colors, color } = useSelector((state) => state.theme)
+    const theme = colors[color]
+
     return (
         <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full h-full bg-white rounded-xl p-6 border border-gray-200 relative"
+            className={`w-full h-full rounded-xl p-6  relative transition-all duration-300 
+            ${theme.cardBg} ${theme.cardText}  ${theme.border}`}
         >
-            <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-3">Order Summary</h2>
+            <h2 className={`text-xl font-bold mb-4 border-b pb-3 ${theme.text} border-gray-300`}>
+                Order Summary
+            </h2>
 
-            <div className='border-b border-gray-200 mb-5'>
-                <div className="flex items-center justify-between py-2 px-2 border bg-gray-100 border-gray-300 sm:rounded-3xl rounded-lg sm:mb-5 mb-1 focus:ring-2 focus:ring-green-800">
+            <div className='border-b border-gray-300 mb-5'>
+                <div className={`flex items-center justify-between py-2 px-2 border ${theme.bg} border-gray-300 sm:rounded-3xl rounded-lg sm:mb-5 mb-1`}>
                     <input
                         type="text"
                         placeholder="Enter Coupon Code"
-                        className="flex-1 px-3 py-2 rounded-xl focus:outline-none"
+                        className={`flex-1 px-3 py-2 rounded-xl focus:outline-none ${theme.text} bg-transparent`}
                     />
-                    <button className="sm:ml-2 sm:mr-0  sm:flex hidden -ml-3 px-4 py-2 text-xs cursor-pointer bg-green-900 text-white rounded-3xl hover:bg-green-950/90 transition whitespace-nowrap">
+                    <button className="sm:ml-2 sm:mr-0 sm:flex hidden -ml-3 px-4 py-2 text-xs cursor-pointer bg-green-900 text-white rounded-3xl hover:bg-green-950/90 transition whitespace-nowrap">
                         Apply coupon
                     </button>
                 </div>
@@ -56,9 +63,8 @@ export default function OrderSummary() {
                 </button>
             </div>
 
-
             {product ? (
-                <div className="flex flex-col gap-4 ">
+                <div className="flex flex-col gap-4">
                     {/* Product */}
                     <div className="flex items-center gap-4">
                         <img
@@ -66,32 +72,33 @@ export default function OrderSummary() {
                             alt={product.title}
                             className="w-16 h-16 object-cover rounded-lg bg-gray-200"
                         />
-
                         <div className="flex-1">
-                            <h3 className="text-sm font-medium text-gray-700 truncate w-full">
+                            <h3 className={`text-sm font-medium truncate w-full ${theme.text}`}>
                                 {product.title}
                             </h3>
-                            <p className="text-sm text-gray-500">{product.brand}</p>
+                            <p className="text-sm opacity-80">{product.brand}</p>
                             <p className="sm:hidden flex text-sm font-semibold text-gray-900">${product.price}</p>
                         </div>
-                        <p className="sm:flex hidden text-sm font-semibold text-gray-900">${product.price}</p>
-
+                        <p className={`sm:flex hidden text-sm font-semibold ${theme.cardPrice}`}>
+                            ${product.price}
+                        </p>
                     </div>
 
                     {/* Quantity */}
                     <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-700 font-medium">Quantity</span>
+                        <span className="text-sm font-medium opacity-90">Quantity</span>
                         <Quantity value={quantity} onChange={handleQuantityChange} />
                     </div>
 
                     {/* Divider */}
-                    <div className="border-t border-gray-200" />
+                    <div className="border-t border-gray-300" />
 
                     {/* Total */}
                     <div className="flex items-center justify-between">
-                        <span className="text-lg font-semibold text-gray-900">Total</span>
-                        <span className="text-lg font-bold text-gray-900">${totalPrice}</span>
+                        <span className="text-lg font-semibold opacity-90">Total</span>
+                        <span className={`text-lg font-bold ${theme.accent}`}>${totalPrice}</span>
                     </div>
+
                     {/* Checkout Button */}
                     <Link href={'/payment'}>
                         <button className="w-full px-4 py-2 bg-black text-white rounded-3xl hover:bg-black/80 cursor-pointer transition mt-3">
@@ -101,8 +108,7 @@ export default function OrderSummary() {
                 </div>
             ) : (
                 <p className="text-gray-500 text-center">No product selected.</p>
-            )
-            }
-        </motion.div >
+            )}
+        </motion.div>
     )
 }

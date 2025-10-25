@@ -24,6 +24,9 @@ export default function Cards(props) {
 
     const tags = ["all", "beauty", "electronics", "fashion", "sports"];
     const filteredProducts = products.filter(product => product.category !== 'beauty')
+    const { colors, color } = useSelector((state) => state.theme);
+    const theme = colors[color];
+
 
     return (
 
@@ -49,7 +52,7 @@ export default function Cards(props) {
                     <div className="mt-6 grid gap-x-6 gap-y-10 grid-cols-2 lg:grid-cols-4 md:grid-cols-3 xl:gap-x-8">
                         {!products || products.length === 0 ? (
                             Array.from(new Array(8)).map((_, index) => (
-                                <div key={index} className="bg-white rounded-md overflow-hidden">
+                                <div key={index} className={`${theme.cardBg} rounded-md overflow-hidden`}>
                                     <Skeleton variant="rectangular" height={300} className="w-full lg:h-80 rounded-md" />
                                     <div className="p-2">
                                         <Skeleton width="80%" />
@@ -62,7 +65,7 @@ export default function Cards(props) {
                             filteredProducts.slice(0, slice).map((product, index) => (
                                 <Link href={'/details'} key={product.id}>
                                     <motion.div
-                                        className="group relative bg-white rounded-md overflow-hidden  hover:shadow-lg hover:scale-101 transition-all duration-300"
+                                        className={`group relative ${theme.cardBg} rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300`}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: index * 0.05 }}
@@ -76,24 +79,22 @@ export default function Cards(props) {
                                             />
 
                                             <div
-                                                className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-l absolute bottom-2 right-0  ${product.availabilityStatus !== "In Stock" && "text-gray-500 bg-yellow-300 shadow"
-                                                    }`}
+                                                className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-l absolute bottom-2 right-0  ${product.availabilityStatus !== "In Stock" && "text-gray-500 bg-yellow-300 shadow"}`}
                                             >
-                                                {product.availabilityStatus !== "In Stock"
-                                                    && (
-                                                        <>
-                                                            <CiClock1 className="mr-1" /> Out of Stock
-                                                        </>
-                                                    )}
+                                                {product.availabilityStatus !== "In Stock" && (
+                                                    <>
+                                                        <CiClock1 className="mr-1" /> Out of Stock
+                                                    </>
+                                                )}
                                             </div>
                                         </span>
                                         <div className="mt-4 px-2 flex justify-between items-center">
                                             <div>
-                                                <h3 className="text-sm text-gray-700 font-medium truncate">
+                                                <h3 className={`text-sm font-medium truncate ${theme.cardText}`}>
                                                     {product.title}
                                                 </h3>
-                                                <p className="text-xs text-gray-500">{product.brand}</p>
-                                                <p className="text-sm font-semibold text-gray-900">${product.price}</p>
+                                                <p className={`text-xs ${theme.cardBrand}`}>{product.brand}</p>
+                                                <p className={`text-sm font-semibold ${theme.cardPrice}`}>${product.price}</p>
                                             </div>
                                         </div>
                                         <div className="px-2 py-1">
@@ -102,9 +103,11 @@ export default function Cards(props) {
                                                 value={Math.floor(product.rating)}
                                                 readOnly
                                                 size="small"
+                                                className={theme.ratingColor}
                                             />
                                         </div>
                                     </motion.div>
+
                                 </Link>
                             ))
                         }

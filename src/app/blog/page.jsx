@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 
 const blogPosts = [
     {
@@ -27,10 +28,13 @@ const blogPosts = [
 ]
 
 export default function Blog() {
+    const theme = useSelector(state => state.theme)
+    const colors = theme.colors[theme.color]
+
     return (
-        <section className="py-16 bg-gray-50 min-h-screen">
+        <section className={`${colors.bg} py-16 min-h-screen transition-colors duration-500`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
+                <h2 className={`text-3xl font-extrabold text-center mb-12 ${colors.text}`}>
                     Latest Store and Partner Updates
                 </h2>
 
@@ -38,7 +42,7 @@ export default function Blog() {
                     {blogPosts.map((post, index) => (
                         <motion.div
                             key={index}
-                            className="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer"
+                            className={`${colors.cardBg} rounded-xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer`}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
@@ -49,9 +53,15 @@ export default function Blog() {
                                 className="w-full h-48 object-cover"
                             />
                             <div className="p-6">
-                                <p className="text-sm text-gray-500">{post.date} • {post.category}</p>
-                                <h3 className="mt-2 text-lg font-semibold text-gray-900">{post.title}</h3>
-                                <p className="mt-2 text-gray-700 text-sm">{post.description}</p>
+                                <p className={`text-sm ${colors.cardBrand}`}>
+                                    {post.date} • {post.category}
+                                </p>
+                                <h3 className={`mt-2 text-lg font-semibold ${colors.text}`}>
+                                    {post.title}
+                                </h3>
+                                <p className={`mt-2 text-sm ${colors.cardBrand}`}>
+                                    {post.description}
+                                </p>
                             </div>
                         </motion.div>
                     ))}

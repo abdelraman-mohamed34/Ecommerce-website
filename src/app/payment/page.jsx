@@ -13,12 +13,14 @@ export default function PaymentPage() {
         expiry: '',
         cvv: '',
     })
-
     const [errors, setErrors] = useState({})
     const [isProcessing, setIsProcessing] = useState(false)
     const [product, setProduct] = useState(null)
     const counter = useSelector((state) => state.counter.value)
     const router = useRouter()
+
+    const { colors, color } = useSelector((state) => state.theme)
+    const theme = colors[color]
 
     useEffect(() => {
         const saved = localStorage.getItem('clickedProduct')
@@ -41,7 +43,6 @@ export default function PaymentPage() {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!validateForm()) return
-
         setIsProcessing(true)
         setTimeout(() => {
             setIsProcessing(false)
@@ -52,41 +53,39 @@ export default function PaymentPage() {
     const totalPrice = product ? (product.price * counter).toFixed(2) : 0
 
     return (
-        <div className={`min-h-screen grid grid-cols-1 xl:grid-cols-[1fr_35rem] lg:grid-cols-2 transition-all duration-500 bg-gray-100`}>
+        <div className={`min-h-screen grid grid-cols-1 xl:grid-cols-[1fr_35rem] lg:grid-cols-2 transition-all duration-500 ${theme.bg}`}>
             {/* Form */}
             <div className="flex items-center justify-center sm:p-6">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className={`sm:shadow-2xl sm:rounded-3xl sm:p-10 p-5 w-full h-full transition-all duration-300 bg-white`}
+                    className={`sm:shadow-2xl sm:rounded-3xl sm:p-10 p-5 w-full h-full transition-all duration-300`}
                 >
-                    <h2 className="sm:text-4xl text-3xl font-extrabold text-green-900 sm:mb-8 mb-5 text-center tracking-tight">
+                    <h2 className={`sm:text-4xl text-3xl font-extrabold ${theme.accent} sm:mb-8 mb-5 text-center tracking-tight`}>
                         Payment Details
                     </h2>
 
                     <form className="space-y-6" onSubmit={handleSubmit} noValidate>
                         {/* Cardholder Name */}
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
                                 Cardholder Name
                             </label>
                             <input
                                 type="text"
                                 name="name"
                                 value={card.name}
-                                onChange={(e) =>
-                                    setCard((prev) => ({ ...prev, name: e.target.value }))
-                                }
+                                onChange={(e) => setCard({ ...card, name: e.target.value })}
                                 placeholder="Enter the name on your card"
-                                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-200'} rounded-xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none`}
+                                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none ${theme.cardBg}`}
                             />
                             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                         </div>
 
                         {/* Card Number */}
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
                                 Card Number
                             </label>
                             <input
@@ -94,13 +93,12 @@ export default function PaymentPage() {
                                 name="number"
                                 value={card.number}
                                 onChange={(e) => {
-                                    let value = e.target.value.replace(/\D/g, '')
-                                    value = value.slice(0, 16)
+                                    let value = e.target.value.replace(/\D/g, '').slice(0, 16)
                                     value = value.replace(/(.{4})/g, '$1 ').trim()
-                                    setCard((prev) => ({ ...prev, number: value }))
+                                    setCard({ ...card, number: value })
                                 }}
                                 placeholder="XXXX XXXX XXXX XXXX"
-                                className={`w-full border ${errors.number ? 'border-red-500' : 'border-gray-200'} rounded-xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest`}
+                                className={`w-full border ${errors.number ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
                             />
                             {errors.number && <p className="text-red-500 text-sm mt-1">{errors.number}</p>}
                         </div>
@@ -108,7 +106,7 @@ export default function PaymentPage() {
                         {/* Expiry & CVV */}
                         <div className="flex gap-5">
                             <div className="flex-1">
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
                                     Expiry Date
                                 </label>
                                 <input
@@ -116,26 +114,21 @@ export default function PaymentPage() {
                                     name="expiry"
                                     value={card.expiry}
                                     onChange={(e) => {
-                                        let v = e.target.value.replace(/\D/g, '').slice(0, 4);
-                                        if (v.length >= 3) v = `${v.slice(0, 2)}/${v.slice(2)}`;
-                                        const [month] = v.split('/');
-                                        if (month && parseInt(month) > 12) v = `12/${v.slice(3)}`;
-                                        if (month === '00') v = `01/${v.slice(3)}`;
-                                        setCard((prev) => ({ ...prev, expiry: v }));
+                                        let v = e.target.value.replace(/\D/g, '').slice(0, 4)
+                                        if (v.length >= 3) v = `${v.slice(0, 2)}/${v.slice(2)}`
+                                        const [month] = v.split('/')
+                                        if (month && parseInt(month) > 12) v = `12/${v.slice(3)}`
+                                        if (month === '00') v = `01/${v.slice(3)}`
+                                        setCard({ ...card, expiry: v })
                                     }}
                                     placeholder="MM/YY"
-                                    maxLength={5}
-                                    className={`w-full border ${errors.expiry ? 'border-red-500' : 'border-gray-200'} 
-                                                rounded-xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm 
-                                                focus:ring-4 focus:ring-green-600/30 focus:border-green-700 
-                                                transition-all duration-200 outline-none tracking-widest`}
+                                    className={`w-full border ${errors.expiry ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
                                 />
-
                                 {errors.expiry && <p className="text-red-500 text-sm mt-1">{errors.expiry}</p>}
                             </div>
 
                             <div className="flex-1">
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
                                     CVV
                                 </label>
                                 <input
@@ -143,11 +136,11 @@ export default function PaymentPage() {
                                     name="cvv"
                                     value={card.cvv}
                                     onChange={(e) => {
-                                        const numericValue = e.target.value.replace(/\D/g, '').slice(0, 3)
-                                        setCard((prev) => ({ ...prev, cvv: numericValue }))
+                                        const v = e.target.value.replace(/\D/g, '').slice(0, 3)
+                                        setCard({ ...card, cvv: v })
                                     }}
                                     placeholder="123"
-                                    className={`w-full border ${errors.cvv ? 'border-red-500' : 'border-gray-200'} rounded-xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest`}
+                                    className={`w-full border ${errors.cvv ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
                                 />
                                 {errors.cvv && <p className="text-red-500 text-sm mt-1">{errors.cvv}</p>}
                             </div>
@@ -159,10 +152,7 @@ export default function PaymentPage() {
                             disabled={isProcessing}
                             whileHover={!isProcessing ? { scale: 1.02 } : {}}
                             whileTap={!isProcessing ? { scale: 0.98 } : {}}
-                            className={`w-full py-3.5 rounded-full shadow-md font-semibold text-white transition-all duration-300 ${isProcessing
-                                ? 'bg-green-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-green-800 to-green-600 hover:shadow-lg'
-                                }`}
+                            className={`w-full py-3.5 rounded-full shadow-md font-semibold text-white transition-all duration-300 ${isProcessing ? 'bg-green-400 cursor-not-allowed' : 'bg-gradient-to-r from-green-800 to-green-600 hover:shadow-lg'}`}
                         >
                             {isProcessing ? 'Processing...' : 'Pay Now'}
                         </motion.button>
@@ -188,19 +178,18 @@ export default function PaymentPage() {
                             <div className="text-sm">{card.expiry || 'MM/YY'}</div>
                         </div>
                     </motion.div>
-
                 </motion.div>
             </div>
 
             {/* Order Summary */}
-            <div className="hidden lg:flex flex-col items-center justify-center p-6 h-[92vh] bg-gray-200/70 sticky top-17">
+            <div className={`hidden lg:flex flex-col items-center justify-center h-[92vh] ${theme.nav} sticky top-17`}>
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="w-full h-full p-6 relative"
+                    className={`w-full h-full p-6 relative ${theme.cardBg} ${theme.cardText}`}
                 >
-                    <h2 className="text-xl font-bold text-gray-900 mb-4 border-gray-200 pb-3">
+                    <h2 className={`text-xl font-bold mb-4 pb-3 border-b border-gray-300 ${theme.text}`}>
                         Order Summary
                     </h2>
 
@@ -212,22 +201,20 @@ export default function PaymentPage() {
                                     alt={product.title}
                                     className="w-16 h-16 object-cover rounded-lg bg-gray-200"
                                 />
-
                                 <div className="flex-1">
-                                    <h3 className="text-sm font-medium text-gray-700 truncate w-full">
+                                    <h3 className={`text-sm font-medium truncate w-full ${theme.cardText}`}>
                                         {product.title}
                                     </h3>
-                                    <p className="text-sm text-gray-500">{product.brand}</p>
+                                    <p className="text-sm opacity-80">{product.brand}</p>
                                     <p className="sm:hidden flex text-sm font-semibold text-gray-900">${product.price}</p>
                                 </div>
-                                <p className="sm:flex hidden text-sm font-semibold text-gray-900">${product.price}</p>
-
+                                <p className={`sm:flex hidden text-sm font-semibold ${theme.cardPrice}`}>${product.price}</p>
                             </div>
 
                             <div className="border-t-2 border-gray-300 py-10 absolute w-full bottom-0 left-0 px-5">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-lg font-semibold text-gray-900">Total</span>
-                                    <span className="text-lg font-bold text-gray-900">${totalPrice}</span>
+                                    <span className={`text-lg font-semibold ${theme.text}`}>Total</span>
+                                    <span className={`text-lg font-bold ${theme.accent}`}>${totalPrice}</span>
                                 </div>
                             </div>
                         </div>

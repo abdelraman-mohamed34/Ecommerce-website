@@ -2,8 +2,12 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
 export default function RegisterPage() {
+    const { colors, color } = useSelector((state) => state.theme)
+    const theme = colors[color]
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -45,7 +49,7 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="min-h-screen lg:grid lg:grid-cols-[35rem_1fr] xl:grid-cols-[40rem_1fr] bg-gray-50 overflow-hidden">
+        <div className={`min-h-screen lg:grid lg:grid-cols-[35rem_1fr] xl:grid-cols-[40rem_1fr] overflow-hidden ${theme.bg}`}>
 
             {/* Left Side - Image with Overlay */}
             <motion.div
@@ -75,72 +79,37 @@ export default function RegisterPage() {
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="flex items-center justify-center sm:p-16 p-8 xl:bg-white xl:shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+                className={`flex items-center justify-center sm:p-16 p-8 xl:shadow-[0_8px_40px_rgba(0,0,0,0.08)] ${theme.bg}`}
             >
                 <div className="w-full max-w-md">
-                    <h1 className="sm:text-5xl text-3xl font-extrabold bg-gradient-to-r from-green-900 to-green-600 bg-clip-text text-transparent mb-5 text-center lg:text-left">
+                    <h1 className={`sm:text-5xl text-3xl font-extrabold mb-5 text-center lg:text-left ${theme.accent} bg-clip-text bg-gradient-to-r from-green-900 to-green-600 text-transparent`}>
                         Join Us
                     </h1>
-                    <p className="text-gray-500 sm:mb-10 mb-5 text-center lg:text-left">
+                    <p className={`sm:mb-10 mb-5 text-center lg:text-left ${theme.text}`}>
                         Create your account to get started
                     </p>
 
                     <form onSubmit={handleSubmit} noValidate className="space-y-7">
-                        {/* Name */}
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                placeholder="John Doe"
-                                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-200'} rounded-2xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-200 focus:border-green-700 outline-none transition-all duration-200`}
-                            />
-                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-                        </div>
-
-                        {/* Email */}
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="you@example.com"
-                                className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-200'} rounded-2xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-200 focus:border-green-700 outline-none transition-all duration-200`}
-                            />
-                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                        </div>
-
-                        {/* Password */}
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="••••••••"
-                                className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-200'} rounded-2xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-200 focus:border-green-700 outline-none transition-all duration-200`}
-                            />
-                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
-                        </div>
-
-                        {/* Confirm Password */}
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="••••••••"
-                                className={`w-full border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-200'} rounded-2xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-200 focus:border-green-700 outline-none transition-all duration-200`}
-                            />
-                            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
-                        </div>
+                        {['name', 'email', 'password', 'confirmPassword'].map((field, i) => (
+                            <div key={i}>
+                                <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
+                                    {field === 'name' ? 'Full Name' :
+                                        field === 'email' ? 'Email' :
+                                            field === 'password' ? 'Password' : 'Confirm Password'}
+                                </label>
+                                <input
+                                    type={field.includes('password') ? 'password' : field === 'email' ? 'email' : 'text'}
+                                    name={field}
+                                    value={formData[field]}
+                                    onChange={handleChange}
+                                    placeholder={field === 'name' ? 'John Doe' :
+                                        field === 'email' ? 'you@example.com' :
+                                            '••••••••'}
+                                    className={`w-full border ${errors[field] ? 'border-red-500' : 'border-gray-200'} rounded-2xl p-3.5 text-gray-900 placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-200 focus:border-green-700 outline-none transition-all duration-200 ${theme.bg}`}
+                                />
+                                {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]}</p>}
+                            </div>
+                        ))}
 
                         {/* Button */}
                         <motion.button
@@ -158,9 +127,9 @@ export default function RegisterPage() {
                         </motion.button>
                     </form>
 
-                    <p className="text-center text-sm text-gray-600 mt-8">
+                    <p className={`text-center text-sm mt-8 ${theme.text}`}>
                         Already have an account?{' '}
-                        <a href="/signin" className="text-green-700 font-semibold hover:underline">
+                        <a href="/signin" className={`font-semibold hover:underline ${theme.accent}`}>
                             Sign in
                         </a>
                     </p>

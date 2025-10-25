@@ -13,7 +13,8 @@ export default function CategoryRows() {
     const dispatch = useDispatch()
     const searchParams = useSearchParams()
     const category = searchParams.get('name')
-
+    const { colors, color } = useSelector((state) => state.theme);
+    const theme = colors[color];
     useEffect(() => {
         if (category) {
             dispatch(fetchProductsApiByCategory(category))
@@ -29,15 +30,12 @@ export default function CategoryRows() {
         return (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                 {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className="bg-white rounded-md overflow-hidden transition-all duration-300">
-                        <Skeleton variant="rectangular" height={220} animation="wave" className="w-full" />
-                        <div className="px-3 py-3 space-y-2">
-                            <Skeleton variant="text" width="80%" height={20} animation="wave" />
-                            <Skeleton variant="text" width="60%" height={18} animation="wave" />
-                            <Skeleton variant="text" width="40%" height={18} animation="wave" />
-                        </div>
-                        <div className="px-3 pb-3">
-                            <Skeleton variant="rounded" width={80} height={20} animation="wave" />
+                    <div key={i} className={`${theme.cardBg} rounded-md overflow-hidden`}>
+                        <Skeleton variant="rectangular" height={150} className="w-full lg:h-80 rounded-md" />
+                        <div className="p-2">
+                            <Skeleton width="80%" />
+                            <Skeleton width="60%" />
+                            <Skeleton width="40%" />
                         </div>
                     </div>
                 ))}
@@ -71,7 +69,7 @@ export default function CategoryRows() {
                     {productsCategory.map((product, index) => (
                         <Link href={'/details'} key={product.id}>
                             <motion.div
-                                className="group relative bg-white rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300"
+                                className={`group relative ${theme.cardBg} rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300`}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: index * 0.1, duration: 0.2, type: 'spring', stiffness: 100 }}
@@ -97,11 +95,11 @@ export default function CategoryRows() {
                                 </span>
                                 <div className="mt-4 px-2 flex justify-between items-center">
                                     <div>
-                                        <h3 className="text-sm text-gray-700 font-medium truncate">
+                                        <h3 className={`text-sm font-medium truncate ${theme.cardText}`}>
                                             {product.title}
                                         </h3>
-                                        <p className="text-xs text-gray-500">{product.brand}</p>
-                                        <p className="text-sm font-semibold text-gray-900">${product.price}</p>
+                                        <p className={`text-xs ${theme.cardBrand}`}>{product.brand}</p>
+                                        <p className={`text-sm font-semibold ${theme.cardPrice}`}>${product.price}</p>
                                     </div>
                                 </div>
                                 <div className="px-2 py-1">
@@ -110,6 +108,7 @@ export default function CategoryRows() {
                                         value={Math.floor(product.rating)}
                                         readOnly
                                         size="small"
+                                        className={theme.ratingColor}
                                     />
                                 </div>
                             </motion.div>

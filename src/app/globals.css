@@ -24,3 +24,7 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+body.dark {
+  background: oklch(0.21 0.034 264.665);
+}

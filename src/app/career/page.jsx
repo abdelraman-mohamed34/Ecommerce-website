@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 
 const jobs = [
     {
@@ -41,10 +42,13 @@ const jobs = [
 ]
 
 export default function Careers() {
+    const theme = useSelector(state => state.theme)
+    const colors = theme.colors[theme.color]
+
     return (
-        <section className="py-16 bg-gray-50 min-h-screen">
+        <section className={`${colors.bg} py-16 min-h-screen transition-colors duration-500`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
+                <h2 className={`text-3xl font-extrabold text-center mb-12 ${colors.text}`}>
                     Join Our Growing Team
                 </h2>
 
@@ -52,7 +56,7 @@ export default function Careers() {
                     {jobs.map((job, index) => (
                         <motion.div
                             key={index}
-                            className="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer"
+                            className={`${colors.cardBg} rounded-xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer`}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
@@ -63,12 +67,14 @@ export default function Careers() {
                                 className="w-full h-48 object-cover"
                             />
                             <div className="p-6">
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">{job.title}</h3>
-                                <p className="text-sm text-gray-500 mb-1">
+                                <h3 className={`text-xl font-semibold mb-2 ${colors.text}`}>{job.title}</h3>
+                                <p className={`text-sm mb-1 ${colors.cardBrand}`}>
                                     {job.location} • {job.type}
                                 </p>
-                                <p className="text-gray-600 text-sm mb-4">{job.description}</p>
-                                <button className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition">
+                                <p className={`text-sm mb-4 ${colors.cardBrand}`}>
+                                    {job.description}
+                                </p>
+                                <button className={`${colors.buttonBg} ${colors.buttonHover} text-white px-4 py-2 rounded-lg transition`}>
                                     Apply Now
                                 </button>
                             </div>

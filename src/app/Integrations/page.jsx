@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Skeleton } from '@mui/material'
+import { useSelector } from 'react-redux'
 
 export default function page() {
     const [integrations, setIntegrations] = useState(null)
@@ -16,7 +17,7 @@ export default function page() {
                 { id: 3, name: 'Google Drive', description: 'Access your files', img: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_48dp.png' },
                 { id: 4, name: 'Trello', description: 'Manage projects easily', img: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Trello-logo-blue.svg' },
             ])
-        }, 1500)
+        }, 1000)
     }, [])
 
     const containerVariants = {
@@ -31,12 +32,14 @@ export default function page() {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.3 } }
     }
+    const { colors, color } = useSelector((state) => state.theme)
+    const theme = colors[color]
 
     return (
-        <div className="bg-gray-50 p-5 sm:p-10">
-            <header className="mb-10 text-center">
-                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Integrations</h1>
-                <p className="mt-2 text-gray-600">Connect your favorite apps and services</p>
+        <div className="p-5 sm:p-10">
+            <header className={`mb-10 text-center`}>
+                <h1 className={`text-3xl sm:text-4xl font-bold ${theme.text}`}>Integrations</h1>
+                <p className={`mt-2 text-gray-600 ${theme.disText}`}>Connect your favorite apps and services</p>
             </header>
 
             <motion.div
@@ -49,18 +52,18 @@ export default function page() {
                     ? integrations.map((integration) => (
                         <motion.div
                             key={integration.id}
-                            className="bg-white rounded-lg shadow-md p-5 flex flex-col items-center text-center cursor-pointer hover:shadow-xl transition"
+                            className={`${theme.cardBg} rounded-lg shadow-md p-5 flex flex-col items-center text-center cursor-pointer hover:shadow-xl transition`}
                             variants={cardVariants}
                         >
                             <img src={integration.img} alt={integration.name} className="w-16 h-16 mb-3 object-contain" />
-                            <h3 className="font-semibold text-gray-900">{integration.name}</h3>
-                            <p className="text-gray-500 text-sm mt-1">{integration.description}</p>
+                            <h3 className={`font-semibold ${theme.text}`}>{integration.name}</h3>
+                            <p className={`${theme.disText} text-sm mt-1`}>{integration.description}</p>
                         </motion.div>
                     ))
-                    : Array.from(new Array(8)).map((_, idx) => (
+                    : Array.from(new Array(5)).map((_, idx) => (
                         <motion.div
                             key={idx}
-                            className="bg-white rounded-lg shadow-md p-5 flex flex-col items-center text-center"
+                            className={`${theme.cardBg} rounded-lg shadow-md p-5 flex flex-col items-center text-center`}
                             variants={cardVariants}
                         >
                             <Skeleton variant="circular" width={64} height={64} className="mb-3" />
@@ -70,6 +73,6 @@ export default function page() {
                     ))
                 }
             </motion.div>
-        </div>
+        </div >
     )
 }

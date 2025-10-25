@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 function MainContainer(props) {
 
@@ -35,6 +36,8 @@ function MainContainer(props) {
     const handleRoute = (prop) => {
         router.push(`/category?name=${prop}`)
     }
+    const { colors, color } = useSelector((state) => state.theme)
+    const theme = colors[color]
 
     return (
         <div className="w-full flex flex-col justify-center lg:px-20 md:px-15 sm:px-10">
@@ -43,7 +46,7 @@ function MainContainer(props) {
                 initial="hidden"
                 animate="visible"
                 variants={containerVariants}
-                className="w-full h-64 md:h-72 bg-gradient-to-b from-orange-100 to-orange-50/10 sm:mt-5 flex items-center p-10 overflow-hidden rounded-lg"
+                className={`w-full h-64 md:h-72 ${color === 'light ' ? 'bg-gradient-to-b from-orange-100 to-orange-50/10' : 'bg-orange-100'}  sm:mt-5 flex items-center p-10 overflow-hidden sm:rounded-lg`}
             >
                 <motion.div variants={childVariants} className='flex flex-col'>
                     <div>
@@ -59,6 +62,7 @@ function MainContainer(props) {
                     </div>
                 </motion.div>
             </motion.div>
+
             <section className="mt-10 lg:grid lg:grid-cols-3 flex gap-2 overflow-x-auto sm:px-0 px-2 sm:h-60 h-50 w-full overflow-y-hidden">
                 {categories.map((cat, i) => (
                     <motion.div
