@@ -73,7 +73,7 @@ export default function Cards(props) {
                                         <img
                                             alt={product.title}
                                             src={product.images[0]}
-                                            className={`aspect-square w-full lg:h-80 rounded-md ${theme.img_bg} object-cover lg:aspect-auto transition-transform duration-300 group-hover:scale-105`}
+                                            className={`aspect-square w-full lg:h-80 ${theme.img_bg} object-cover lg:aspect-auto transition-transform duration-300 group-hover:scale-105`}
                                         />
 
                                         <div

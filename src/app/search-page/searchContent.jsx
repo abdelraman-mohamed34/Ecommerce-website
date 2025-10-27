@@ -58,8 +58,8 @@ export default function SearchContent() {
 
     if (hasData && searchedProductsResult.length === 0) {
         return (
-            <div className="text-center text-gray-600 py-10">
-                No products found for <span className="font-semibold">{name}</span>.
+            <div className={`text-center py-10 ${theme.text}`}>
+                No products found for <span className={`font-semibold ${theme.accent}`}>{name}</span>.
             </div>
         )
     }
@@ -86,7 +86,7 @@ export default function SearchContent() {
                                         <img
                                             alt={product.title}
                                             src={product.images[0]}
-                                            className={`aspect-square w-full rounded-md ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
+                                            className={`aspect-square w-full ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
                                         />
 
                                         <div

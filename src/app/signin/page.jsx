@@ -39,7 +39,7 @@ export default function SignInPage() {
         }
     }
     return (
-        <div className={`min-h-screen lg:grid lg:grid-cols-[35rem_1fr] xl:grid-cols-[40rem_1fr] flex overflow-hidden ${theme.bg} justify-center`}>
+        <div className={`lg:grid lg:grid-cols-[35rem_1fr] xl:grid-cols-[40rem_1fr] flex overflow-hidden ${theme.bg} justify-center`}>
 
             {/* Right Panel - Illustration */}
             <motion.div

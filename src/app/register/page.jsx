@@ -49,7 +49,7 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className={`min-h-screen lg:grid lg:grid-cols-[35rem_1fr] xl:grid-cols-[40rem_1fr] overflow-hidden ${theme.bg}`}>
+        <div className={`lg:grid lg:grid-cols-[35rem_1fr] xl:grid-cols-[40rem_1fr] overflow-hidden ${theme.bg}`}>
 
             {/* Left Side - Image with Overlay */}
             <motion.div

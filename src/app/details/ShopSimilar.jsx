@@ -49,7 +49,7 @@ function ShopSimilar() {
                                             <img
                                                 alt={p.title}
                                                 src={p.images[0]}
-                                                className={`aspect-square w-full rounded-md ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
+                                                className={`aspect-square w-full ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
                                             />
 
                                             <div className="mt-4 px-2 flex justify-between items-center">

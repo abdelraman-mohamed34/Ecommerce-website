@@ -20,7 +20,7 @@ export default function Review() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`w-full h-full sm:rounded-2xl p-6 transition-shadow duration-300 lg:sticky top-29 ${theme.cardBg} ${theme.cardText} ${theme.border_small}`}
+            className={`w-full h-full sm:rounded-2xl p-6 sm:py-6 pt-6 py-0 transition-shadow duration-300 lg:sticky top-29 ${theme.cardBg} ${theme.cardText} ${theme.border_small}`}
         >
             <h2 className="text-xl font-bold mb-4">Review</h2>
 

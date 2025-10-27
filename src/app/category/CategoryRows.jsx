@@ -87,7 +87,7 @@ export default function CategoryRows() {
                                     <img
                                         alt={product.title}
                                         src={product.images[0]}
-                                        className={`aspect-square w-full rounded-md ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
+                                        className={`aspect-square w-full ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
 
                                     />
                                     <div
