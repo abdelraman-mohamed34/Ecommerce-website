@@ -10,7 +10,7 @@ export default function Footer() {
     const theme = colors[color];
 
     return (
-        <footer className={`${theme.footer} ${theme.text} border-t ${color === 'light' ? 'border-gray-300' : 'border-gray-700'} z-8`}>
+        <footer className={`absolute w-full bottom-0 ${color === 'light' ? 'border-gray-300' : 'border-gray-700'} ${theme.footer} ${theme.text} z-8`}>
             <div className="max-w-7xl mx-auto px-6 py-12">
                 {/* Top Section */}
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 md:gap-0">

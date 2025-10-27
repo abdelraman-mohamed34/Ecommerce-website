@@ -20,7 +20,7 @@ export default function Review() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`w-full h-full rounded-2xl p-6 border transition-shadow duration-300 lg:sticky top-29 ${theme.cardBg} ${theme.cardText} border-gray-300`}
+            className={`w-full h-full sm:rounded-2xl p-6 transition-shadow duration-300 lg:sticky top-29 ${theme.cardBg} ${theme.cardText} ${theme.border_small}`}
         >
             <h2 className="text-xl font-bold mb-4">Review</h2>
 
@@ -30,7 +30,7 @@ export default function Review() {
                         <img
                             src={product.images[0]}
                             alt={product.title}
-                            className="md:w-60 aspect-square object-cover rounded-xl bg-gray-100 border border-gray-300 transition-transform duration-300"
+                            className={`md:w-60 aspect-square object-cover rounded-xl transition-transform duration-300 ${theme.img_bg}`}
                         />
                         <div className="flex-1">
                             <h3 className="text-2xl font-semibold mb-1">{product.title}</h3>

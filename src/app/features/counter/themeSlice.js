@@ -20,6 +20,12 @@ const initialState = {
             ratingColor: 'text-yellow-400',
             hover: 'hover:bg-gray-100',
             border: 'border border-gray-300',
+            border_small: 'sm:border border-gray-300',
+            bottomBorder: 'border-b border-gray-300',
+            topBorder: 'border-t border-gray-300',
+            img_bg: 'bg-gray-200',
+            slider: 'opacity-100',
+            skeletonBg: 'bg-gray-300/70'
         },
         dark: {
             bg: 'bg-gray-900',
@@ -37,7 +43,13 @@ const initialState = {
             cardBrand: 'text-gray-400',
             ratingColor: 'text-yellow-400',
             hover: 'hover:bg-gray-800',
-            border: '',
+            border: 'border border-gray-600',
+            border_small: 'sm:border border-gray-600',
+            bottomBorder: 'border-b border-gray-600',
+            topBorder: 'border-t border-gray-600',
+            img_bg: 'bg-gray-700',
+            slider: 'bg-white/10 backdrop-blur-md',
+            skeletonBg: 'bg-gray-700'
         }
     }
 }

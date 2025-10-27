@@ -40,15 +40,15 @@ export default function OrderSummary() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`w-full h-full rounded-xl p-6  relative transition-all duration-300 
-            ${theme.cardBg} ${theme.cardText}  ${theme.border}`}
+            className={`w-full h-full sm:rounded-xl p-6 relative transition-all duration-300 
+            ${theme.cardBg} ${theme.cardText}  ${theme.border_small}`}
         >
-            <h2 className={`text-xl font-bold mb-4 border-b pb-3 ${theme.text} border-gray-300`}>
+            <h2 className={`text-xl font-bold mb-4  pb-3 ${theme.text} ${theme.bottomBorder}`}>
                 Order Summary
             </h2>
 
-            <div className='border-b border-gray-300 mb-5'>
-                <div className={`flex items-center justify-between py-2 px-2 border ${theme.bg} border-gray-300 sm:rounded-3xl rounded-lg sm:mb-5 mb-1`}>
+            <div className={`${theme.bottomBorder} mb-5`}>
+                <div className={`flex items-center justify-between py-2 px-2  ${theme.bg} ${theme.border} sm:rounded-3xl rounded-lg sm:mb-5 mb-1`}>
                     <input
                         type="text"
                         placeholder="Enter Coupon Code"
@@ -70,14 +70,14 @@ export default function OrderSummary() {
                         <img
                             src={product.images[0]}
                             alt={product.title}
-                            className="w-16 h-16 object-cover rounded-lg bg-gray-200"
+                            className={`w-16 h-16 object-cover rounded-lg ${theme.img_bg}`}
                         />
                         <div className="flex-1">
                             <h3 className={`text-sm font-medium truncate w-full ${theme.text}`}>
                                 {product.title}
                             </h3>
                             <p className="text-sm opacity-80">{product.brand}</p>
-                            <p className="sm:hidden flex text-sm font-semibold text-gray-900">${product.price}</p>
+                            <p className={`sm:hidden flex text-sm font-semibold ${theme.accent}`}>${product.price}</p>
                         </div>
                         <p className={`sm:flex hidden text-sm font-semibold ${theme.cardPrice}`}>
                             ${product.price}
@@ -91,7 +91,7 @@ export default function OrderSummary() {
                     </div>
 
                     {/* Divider */}
-                    <div className="border-t border-gray-300" />
+                    <div className={`${theme.topBorder}`} />
 
                     {/* Total */}
                     <div className="flex items-center justify-between">

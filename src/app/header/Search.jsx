@@ -74,7 +74,7 @@ export default function SearchButton() {
         <div className='relative w-full lg:w-80 ml-5'>
             <div
                 ref={containerRef}
-                className={`flex items-center ${theme.bg} border border-gray-300 rounded-full shadow-sm overflow-hidden transition-all duration-300`}
+                className={`flex items-center ${theme.img_bg}  rounded-full shadow-sm overflow-hidden transition-all duration-300`}
                 onClick={() => setShowInput(true)}
             >
                 <AnimatePresence>
@@ -98,25 +98,25 @@ export default function SearchButton() {
 
                 <button
                     onClick={handleSearchClick}
-                    className="p-2 text-gray-500 hover:text-gray-700 transition-colors flex-shrink-0"
+                    className="p-2 text-gray-500 transition-colors flex-shrink-0"
                 >
                     <MagnifyingGlassIcon aria-hidden="true" className="w-5 h-5" />
                 </button>
 
-                {/* Dropdown النتائج */}
+                {/* Dropdown results */}
                 {results.length > 0 && (
                     <motion.ul
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
-                        className={`absolute top-full left-0 right-0 ${theme.bg} border border-gray-300 mt-1 rounded-md shadow-lg max-h-80 sm:max-h-64 overflow-y-auto z-50 w-full sm:w-auto`}
+                        className={`absolute top-full left-0 right-0 ${theme.img_bg} mt-1 rounded-md shadow-lg max-h-80 sm:max-h-64 overflow-y-auto z-50 w-full sm:w-auto`}
                     >
                         {results.map(product => (
                             <li
                                 key={product.id}
                                 onClick={() => handleSelectResult(product)}
                                 className={`flex items-center px-4 py-3 sm:py-2 cursor-pointer transition-colors 
-                    ${theme.text} hover:${theme.textHover} ${theme.hover}`}
+                                            ${theme.text} hover:${theme.textHover} ${theme.hover}`}
                             >
                                 <img
                                     src={product.thumbnail}

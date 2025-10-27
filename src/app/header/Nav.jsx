@@ -23,11 +23,11 @@ import { RxAvatar } from "react-icons/rx";
 import SearchButton from './Search.jsx';
 import { useSelector } from 'react-redux';
 import ThemeToggle from '../ThemeToggle.jsx';
+import ThemeSelect from './LangSelect.jsx';
 
 export default function Nav() {
-    const router = useRouter()
     const [open, setOpen] = useState(false)
-
+    const router = useRouter()
     const { colors, color } = useSelector((state) => state.theme)
     const theme = colors[color]
 
@@ -43,11 +43,10 @@ export default function Nav() {
         <div className={`${theme.bg} sticky top-0 shadow-md z-10`}>
 
             {/* Mobile menu */}
-            <Dialog open={open} onClose={setOpen} className="relative z-[2000] lg:hidden">
+            <Dialog open={open} onClose={setOpen} className="relative z-[2000] xl:hidden">
                 <DialogBackdrop className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-closed:opacity-0" />
                 <div className="fixed inset-0 z-40 flex">
-                    <DialogPanel className={`relative flex w-full max-w-xs transform flex-col ${theme.bg} overflow-y-auto pb-12 shadow-xl transition duration-300 ease-in-out data-closed:-translate-x-full`}>
-
+                    <DialogPanel className={`relative flex w-full max-w-xs sm:max-w-lg lg:max-w-2xl transform flex-col overflow-y-auto pb-12 shadow-xl transition duration-300 ease-in-out data-closed:-translate-x-full ${theme.bg}`}>
                         {/* mobile menu btn */}
                         <div className="flex px-4 pt-5 pb-2">
                             <button
@@ -78,7 +77,7 @@ export default function Nav() {
 
                             <TabPanels as={Fragment}>
                                 {navigation.categories.map((category) => (
-                                    <TabPanel key={category.name} className="space-y-10 px-4 pt-10 pb-8">
+                                    <TabPanel key={category.name} className="space-y-5 px-4 pt-3 pb-8">
                                         {category.featured && (
                                             <div className="grid grid-cols-2 gap-x-4">
                                                 {category.featured.map((item) => (
@@ -103,7 +102,7 @@ export default function Nav() {
                                         {category.sections.map((section) => (
                                             <div key={section.name}>
                                                 <p className={`font-medium ${theme.secondText}`}>{section.name}</p>
-                                                <ul className="mt-6 flex flex-col space-y-6">
+                                                <ul className="mt-6 flex flex-col space-y-3">
                                                     {section.items.map((item) => (
                                                         <li
                                                             key={item.name}
@@ -131,7 +130,7 @@ export default function Nav() {
                         </TabGroup>
 
                         {/* btns */}
-                        <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                        <div className={`space-y-6 ${theme.topBorder} px-4 py-6`}>
                             <div className="flow-root">
                                 <Link href="/signin" onClick={() => setOpen(false)} className={`flex items-center gap-1 -m-2 p-2 font-medium ${theme.secondText}`}>
                                     <CiLogin /> Sign in
@@ -144,7 +143,7 @@ export default function Nav() {
                             </div>
                         </div>
 
-                        <div className='w-full flex justify-start items-center border-t border-gray-100 pt-3 px-5'>
+                        <div className={`w-full flex justify-start items-center ${theme.topBorder} pt-3 px-5`}>
                             <ThemeToggle />
                         </div>
 
@@ -153,13 +152,13 @@ export default function Nav() {
             </Dialog >
 
             <header className={`relative ${theme.cardBg} z-[1000]`}>
-                <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <nav aria-label="Top" className="mx-auto max-w-7xl xl:p-0 px-5">
                     <div>
                         <div className="flex h-16 items-center">
                             <button
                                 type="button"
                                 onClick={() => setOpen(true)}
-                                className="relative rounded-md p-2 text-gray-400 lg:hidden"
+                                className="relative rounded-md p-2 text-gray-400 2xl:hidden"
                             >
                                 <span className="absolute -inset-0.5" />
                                 <span className="sr-only">Open menu</span>
@@ -179,24 +178,37 @@ export default function Nav() {
                             </div>
 
                             {/* Flyout menus */}
-                            <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
+                            <PopoverGroup className="hidden lg:ml-8 xl:block lg:self-stretch">
                                 <div className="flex h-full space-x-8">
+
+                                    {/* nav  */}
                                     {navigation.categories.map((category) => (
+
                                         <Popover key={category.name} className="flex">
+
+                                            {/* nav links for desktop*/}
                                             <div className="relative flex">
-                                                <PopoverButton className={`group relative flex items-center justify-center text-sm font-medium ${theme.text} ${theme.textHover} transition-colors duration-200 ease-out data-open:text-green-600`}>
-                                                    {category.name}
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-open:bg-green-600"
-                                                    />
-                                                </PopoverButton>
+                                                {category.sections.length === 1 && category.sections[0].items.length === 1 ? (
+                                                    <Link
+                                                        href={category.sections[0].items[0].href || "#"}
+                                                        className={`group relative flex items-center justify-center text-sm font-medium ${theme.text} ${theme.textHover} transition-colors duration-200 ease-out`}
+                                                    >
+                                                        {category.name}
+                                                    </Link>) : (
+                                                    <PopoverButton className={`group relative flex items-center justify-center text-sm font-medium ${theme.text} ${theme.textHover} transition-colors duration-200 ease-out data-open:text-green-600`}>
+                                                        {category.name}
+                                                        <span
+                                                            aria-hidden="true"
+                                                            className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-open:bg-green-600"
+                                                        />
+                                                    </PopoverButton>
+                                                )}
                                             </div>
                                             <PopoverPanel className={`absolute inset-x-0 top-full z-20 w-full ${theme.bg} text-sm ${theme.text} transition data-closed:opacity-0`}>
                                                 {({ close }) => (
                                                     <>
-                                                        <div aria-hidden="true" className={`absolute inset-0 top-1/2 shadow-sm ${theme.bg}`} />
-                                                        <div className={`relative ${theme.bg}`}>
+                                                        <div aria-hidden="true" className={`absolute inset-0 top-1/2 shadow-sm`} />
+                                                        <div className={`relative ${theme.slider}`}>
                                                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                                                 <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                                                     <div className="col-start-2 grid grid-cols-2 gap-x-8">
@@ -211,11 +223,11 @@ export default function Nav() {
                                                                                     src={item.imageSrc}
                                                                                     className="aspect-square w-full rounded-lg bg-gray-100 object-cover group-hover:opacity-75"
                                                                                 />
-                                                                                <Link href={item.href} className="mt-6 block font-medium text-gray-900">
+                                                                                <Link href={item.href} className={`mt-6 block font-medium ${theme.secondText}`}>
                                                                                     <span aria-hidden="true" className="absolute inset-0 z-10" />
                                                                                     {item.name}
                                                                                 </Link>
-                                                                                <p aria-hidden="true" className="mt-1">
+                                                                                <p aria-hidden="true" className={`mt-1 ${theme.disText}`}>
                                                                                     Shop now
                                                                                 </p>
                                                                             </div>
@@ -237,7 +249,7 @@ export default function Nav() {
                                                                                                 close();
                                                                                             }}
                                                                                         >
-                                                                                            <p className={`${theme.textHover}`}>{item.name}</p>
+                                                                                            <p className={`${theme.textHover} ${theme.disText}`}>{item.name}</p>
                                                                                         </li>
                                                                                     ))}
                                                                                 </ul>
@@ -252,6 +264,7 @@ export default function Nav() {
                                             </PopoverPanel>
                                         </Popover>
                                     ))}
+
                                     {navigation.pages.map((page) => (
                                         <Link
                                             key={page.name}
@@ -282,20 +295,23 @@ export default function Nav() {
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
-                                    <Link href="/signin" className="group -m-2 flex items-center p-2">
+                                    <Link href="/signin" className="group -m-3 flex items-center p-2">
                                         <ShoppingBagIcon
                                             aria-hidden="true"
-                                            className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
+                                            className={`size-6 shrink-0 ${theme.secondText} group-hover:text-gray-500`}
                                         />
-                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span className={`ml-2 text-sm font-medium ${theme.secondText} group-hover:text-gray-500`}>0</span>
                                         <span className="sr-only">items in cart, view bag</span>
                                     </Link>
                                 </div>
                             </div>
+                            <div className='px-3 hidden xl:flex'>
+                                <ThemeSelect />
+                            </div>
                         </div>
                     </div>
-                </nav>
-            </header>
+                </nav >
+            </header >
         </div >
     )
 }

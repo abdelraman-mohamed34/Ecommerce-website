@@ -36,7 +36,7 @@ export const navigation = {
                         { name: 'Bags', href: '/category?name=womens-bags', prop: 'womens-bags' },
                         { name: 'Jewellery', href: '/category?name=womens-jewellery', prop: 'womens-jewellery' },
                         { name: 'Sunglasses', href: '/category?name=sunglasses', prop: 'sunglasses' },
-                        { name: 'Fragrances', href: '/category?name=fragrances', prop: 'fragrances' },
+                        { name: 'Perfumes', href: '/category?name=fragrances', prop: 'fragrances' },
                     ],
                 },
             ],

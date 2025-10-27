@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function ThemeSelect() {
     const dispatch = useDispatch()
-    const themeSlice = useSelector((state) => state.theme.color)
 
     const [theme, setTheme] = useState('light')
-    const [mounted, setMounted] = useState(false) // لتجنب SSR
+    const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -35,15 +34,15 @@ export default function ThemeSelect() {
     if (!mounted) return null
 
     return (
-        <div className="relative text-left flex items-center gap-3">
+        <div className="relative text-left flex items-center gap-3 ml-2">
             <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value)}
-                className="block rounded-md py-2 pr-3 text-sm font-medium"
+                className={`block rounded-md py-2 pr-3 text-sm font-medium ${theme === 'light' ? 'text-black' : 'text-gray-200'}`}
             >
                 <option value="light" className='text-black'>Light</option>
                 <option value="dark" className='text-black'>Dark</option>
             </select>
-        </div>
+        </div >
     )
 }

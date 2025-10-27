@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
-import { Rating, Skeleton } from "@mui/material"
+import { Rating, Skeleton, useMediaQuery } from "@mui/material"
 import { CiClock1 } from "react-icons/ci";
 import { useSearchParams } from 'next/navigation'
 import { fetchProductsApiByCategory } from '../features/counter/categoryApiSlice'
@@ -24,21 +24,29 @@ export default function CategoryRows() {
     const clickedProduct = (product) => {
         localStorage.setItem('clickedProduct', JSON.stringify(product))
     }
+    const three_cols_width = useMediaQuery('(max-width:1024px)')
+    const two_cols_width = useMediaQuery('(max-width:768px)')
+    const two_cols_width_mobile = useMediaQuery('(max-width:500px)')
 
     // Loading skeleton
     if (loading && !hasData) {
         return (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-                {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className={`${theme.cardBg} rounded-md overflow-hidden`}>
-                        <Skeleton variant="rectangular" height={150} className="w-full lg:h-80 rounded-md" />
-                        <div className="p-2">
-                            <Skeleton width="80%" />
-                            <Skeleton width="60%" />
-                            <Skeleton width="40%" />
-                        </div>
+            <div className="flex flex-col w-full md:items-center lg:items-center items-center">
+                <div className="max-w-2xl lg:max-w-7xl w-full">
+                    <div className="mt-6 grid gap-x-6 gap-y-10 grid-cols-2 lg:grid-cols-4 md:grid-cols-3 xl:gap-x-8">
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <div key={i} className={`${theme.cardBg} rounded-md overflow-hidden animate-pulse`}>
+                                <div className={`w-full aspect-square lg:aspect-auto lg:h-80 rounded-md ${theme.skeletonBg}`}></div>
+
+                                <div className="py-2 space-y-2">
+                                    <div className={`w-[80%] h-4 rounded ${theme.skeletonBg}`}></div>
+                                    <div className={`w-[60%] h-4 rounded ${theme.skeletonBg}`}></div>
+                                    <div className={`w-[40%] h-4  rounded ${theme.skeletonBg}`}></div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         )
     }
@@ -69,7 +77,7 @@ export default function CategoryRows() {
                     {productsCategory.map((product, index) => (
                         <Link href={'/details'} key={product.id}>
                             <motion.div
-                                className={`group relative ${theme.cardBg} rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300`}
+                                className={`group relative rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300 ${theme.cardBg}`}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: index * 0.1, duration: 0.2, type: 'spring', stiffness: 100 }}
@@ -79,7 +87,8 @@ export default function CategoryRows() {
                                     <img
                                         alt={product.title}
                                         src={product.images[0]}
-                                        className="aspect-square w-full rounded-md bg-gray-200 object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105"
+                                        className={`aspect-square w-full rounded-md ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
+
                                     />
                                     <div
                                         className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-l absolute bottom-2 right-0  ${product.availabilityStatus !== "In Stock" && "text-gray-500 bg-yellow-300 shadow"
@@ -109,6 +118,9 @@ export default function CategoryRows() {
                                         readOnly
                                         size="small"
                                         className={theme.ratingColor}
+                                        sx={{
+                                            '& .MuiRating-iconEmpty': { color: '#919191' },
+                                        }}
                                     />
                                 </div>
                             </motion.div>

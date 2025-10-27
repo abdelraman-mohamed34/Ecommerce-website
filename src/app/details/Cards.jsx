@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { motion } from "framer-motion"
-import { Rating, Skeleton } from "@mui/material"
+import { Rating } from "@mui/material"
 import { fetchProductsApi, setTag } from "../features/counter/productsSlice"
 import Link from "next/link"
-import { FaCheckCircle } from "react-icons/fa";
 import { CiClock1 } from "react-icons/ci";
 
 export default function Cards(props) {
@@ -26,7 +25,6 @@ export default function Cards(props) {
     const filteredProducts = products.filter(product => product.category !== 'beauty')
     const { colors, color } = useSelector((state) => state.theme);
     const theme = colors[color];
-
 
     return (
 
@@ -52,65 +50,67 @@ export default function Cards(props) {
                     <div className="mt-6 grid gap-x-6 gap-y-10 grid-cols-2 lg:grid-cols-4 md:grid-cols-3 xl:gap-x-8">
                         {!products || products.length === 0 ? (
                             Array.from(new Array(8)).map((_, index) => (
-                                <div key={index} className={`${theme.cardBg} rounded-md overflow-hidden`}>
-                                    <Skeleton variant="rectangular" height={300} className="w-full lg:h-80 rounded-md" />
-                                    <div className="p-2">
-                                        <Skeleton width="80%" />
-                                        <Skeleton width="60%" />
-                                        <Skeleton width="40%" />
+                                <div key={index} className={`${theme.cardBg} rounded-md overflow-hidden animate-pulse`}>
+                                    <div className={`w-full aspect-square lg:h-80 rounded-md ${theme.skeletonBg}`}></div>
+
+                                    <div className="py-2 space-y-2">
+                                        <div className={`w-[80%] h-4 rounded ${theme.skeletonBg}`}></div>
+                                        <div className={`w-[60%] h-4 rounded ${theme.skeletonBg}`}></div>
+                                        <div className={`w-[40%] h-4  rounded ${theme.skeletonBg}`}></div>
                                     </div>
                                 </div>
                             ))
-                        ) :
-                            filteredProducts.slice(0, slice).map((product, index) => (
-                                <Link href={'/details'} key={product.id}>
-                                    <motion.div
-                                        className={`group relative ${theme.cardBg} rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300`}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: index * 0.05 }}
-                                        onClick={() => clickedProduct(product)}
-                                    >
-                                        <span className="relative">
-                                            <img
-                                                alt={product.title}
-                                                src={product.images[0]}
-                                                className="aspect-square w-full rounded-md bg-gray-200 object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105"
-                                            />
+                        ) : filteredProducts.slice(0, slice).map((product, index) => (
+                            <Link href={'/details'} key={product.id}>
+                                <motion.div
+                                    className={`group relative rounded-md overflow-hidden hover:shadow-lg hover:scale-101 transition-all duration-300 ${theme.cardBg} `}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.05 }}
+                                    onClick={() => clickedProduct(product)}
+                                >
+                                    <span className="relative">
+                                        <img
+                                            alt={product.title}
+                                            src={product.images[0]}
+                                            className={`aspect-square w-full lg:h-80 rounded-md ${theme.img_bg} object-cover lg:aspect-auto transition-transform duration-300 group-hover:scale-105`}
+                                        />
 
-                                            <div
-                                                className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-l absolute bottom-2 right-0  ${product.availabilityStatus !== "In Stock" && "text-gray-500 bg-yellow-300 shadow"}`}
-                                            >
-                                                {product.availabilityStatus !== "In Stock" && (
-                                                    <>
-                                                        <CiClock1 className="mr-1" /> Out of Stock
-                                                    </>
-                                                )}
-                                            </div>
-                                        </span>
-                                        <div className="mt-4 px-2 flex justify-between items-center">
-                                            <div>
-                                                <h3 className={`text-sm font-medium truncate ${theme.cardText}`}>
-                                                    {product.title}
-                                                </h3>
-                                                <p className={`text-xs ${theme.cardBrand}`}>{product.brand}</p>
-                                                <p className={`text-sm font-semibold ${theme.cardPrice}`}>${product.price}</p>
-                                            </div>
+                                        <div
+                                            className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-l absolute bottom-2 right-0  ${product.availabilityStatus !== "In Stock" && "text-gray-500 bg-yellow-300 shadow"}`}
+                                        >
+                                            {product.availabilityStatus !== "In Stock" && (
+                                                <>
+                                                    <CiClock1 className="mr-1" /> Out of Stock
+                                                </>
+                                            )}
                                         </div>
-                                        <div className="px-2 py-1">
-                                            <Rating
-                                                name="read-only"
-                                                value={Math.floor(product.rating)}
-                                                readOnly
-                                                size="small"
-                                                className={theme.ratingColor}
-                                            />
-                                        </div>
-                                    </motion.div>
+                                    </span>
 
-                                </Link>
-                            ))
-                        }
+                                    <div className="mt-4 px-2 flex justify-between items-center">
+                                        <div>
+                                            <h3 className={`text-sm font-medium truncate ${theme.cardText}`}>
+                                                {product.title}
+                                            </h3>
+                                            <p className={`text-xs ${theme.cardBrand}`}>{product.brand}</p>
+                                            <p className={`text-sm font-semibold ${theme.cardPrice}`}>${product.price}</p>
+                                        </div>
+                                    </div>
+                                    <div className="px-2 py-1">
+                                        <Rating
+                                            name="read-only"
+                                            value={Math.floor(product.rating)}
+                                            readOnly
+                                            size="small"
+                                            className={theme.ratingColor}
+                                            sx={{
+                                                '& .MuiRating-iconEmpty': { color: '#919191' },
+                                            }}
+                                        />
+                                    </div>
+                                </motion.div>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>

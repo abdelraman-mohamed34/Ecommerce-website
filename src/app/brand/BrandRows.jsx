@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
-import { Rating, Skeleton } from "@mui/material"
+import { Rating, Skeleton, useMediaQuery } from "@mui/material"
 import { CiClock1 } from "react-icons/ci";
 import { useSearchParams } from 'next/navigation'
 import { fetchBrandProducts } from '../features/counter/brandSlice'
@@ -25,33 +25,22 @@ export default function BrandRows() {
     const clickedProduct = (product) => {
         localStorage.setItem('clickedProduct', JSON.stringify(product))
     }
+    const three_cols_width = useMediaQuery('(max-width:1024px)')
+    const two_cols_width = useMediaQuery('(max-width:768px)')
+    const two_cols_width_mobile = useMediaQuery('(max-width:500px)')
+
 
     if (loading) {
         return (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                 {Array.from({ length: 8 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className="bg-white rounded-md overflow-hidden  transition-all duration-300"
-                    >
-                        {/* img */}
-                        <Skeleton
-                            variant="rectangular"
-                            height={220}
-                            animation="wave"
-                            className="w-full"
-                        />
+                    <div className={`${theme.cardBg} rounded-md overflow-hidden animate-pulse`}>
+                        <div className={`w-full aspect-square lg:h-80 rounded-md ${theme.skeletonBg}`}></div>
 
-                        {/* details */}
-                        <div className="px-3 py-3 space-y-2">
-                            <Skeleton variant="text" width="80%" height={20} animation="wave" />
-                            <Skeleton variant="text" width="60%" height={18} animation="wave" />
-                            <Skeleton variant="text" width="40%" height={18} animation="wave" />
-                        </div>
-
-                        {/* rating */}
-                        <div className="px-3 pb-3">
-                            <Skeleton variant="rounded" width={80} height={20} animation="wave" />
+                        <div className="py-2 space-y-2">
+                            <div className={`w-[80%] h-4 rounded ${theme.skeletonBg}`}></div>
+                            <div className={`w-[60%] h-4 rounded ${theme.skeletonBg}`}></div>
+                            <div className={`w-[40%] h-4  rounded ${theme.skeletonBg}`}></div>
                         </div>
                     </div>
                 ))}
@@ -93,7 +82,7 @@ export default function BrandRows() {
                                     <img
                                         alt={product.title}
                                         src={product.images[0]}
-                                        className="aspect-square w-full rounded-md bg-gray-200 object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105"
+                                        className={`aspect-square w-full rounded-md ${theme.img_bg} object-cover lg:aspect-auto lg:h-80 transition-transform duration-300 group-hover:scale-105`}
                                     />
                                     <div
                                         className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-l absolute bottom-2 right-0  ${product.availabilityStatus !== "In Stock" && "text-gray-500 bg-yellow-300 shadow"
@@ -122,6 +111,9 @@ export default function BrandRows() {
                                         value={Math.floor(product.rating)}
                                         readOnly
                                         size="small"
+                                        sx={{
+                                            '& .MuiRating-iconEmpty': { color: '#919191' },
+                                        }}
                                     />
                                 </div>
                             </motion.div>

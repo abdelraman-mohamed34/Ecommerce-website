@@ -206,7 +206,7 @@ export default function PaymentPage() {
                                         {product.title}
                                     </h3>
                                     <p className="text-sm opacity-80">{product.brand}</p>
-                                    <p className="sm:hidden flex text-sm font-semibold text-gray-900">${product.price}</p>
+                                    <p className={`sm:hidden flex text-sm font-semibold ${theme.accent}`}>${product.price}</p>
                                 </div>
                                 <p className={`sm:flex hidden text-sm font-semibold ${theme.cardPrice}`}>${product.price}</p>
                             </div>
