@@ -73,7 +73,7 @@ export default function OrderSummary() {
                             className={`w-16 h-16 object-cover rounded-lg ${theme.img_bg}`}
                         />
                         <div className="flex-1">
-                            <h3 className={`text-sm font-medium truncate w-full ${theme.text}`}>
+                            <h3 className={`text-sm font-medium truncate w-full${theme.text}`}>
                                 {product.title}
                             </h3>
                             <p className="text-sm opacity-80">{product.brand}</p>

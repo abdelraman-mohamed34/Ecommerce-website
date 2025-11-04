@@ -101,7 +101,7 @@ export default function SearchContent() {
                                     </span>
                                     <div className="mt-4 px-2 flex justify-between items-center">
                                         <div>
-                                            <h3 className={`text-sm font-medium truncate ${theme.cardText}`}>
+                                            <h3 className={`text-sm font-medium truncate sm:max-w-max max-w-30 ${theme.cardText}`}>
                                                 {product.title}
                                             </h3>
                                             <p className={`text-xs ${theme.cardBrand}`}>{product.brand}</p>

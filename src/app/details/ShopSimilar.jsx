@@ -54,7 +54,7 @@ function ShopSimilar() {
 
                                             <div className="mt-4 px-2 flex justify-between items-center">
                                                 <div>
-                                                    <h3 className="text-sm font-medium truncate">{p.title}</h3>
+                                                    <h3 className="text-sm font-medium truncate sm:max-w-max max-w-30">{p.title}</h3>
                                                     <p className="text-xs opacity-70">{p.brand}</p>
                                                     <p className="text-sm font-semibold">${p.price}</p>
                                                 </div>

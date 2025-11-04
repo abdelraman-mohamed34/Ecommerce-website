@@ -98,7 +98,7 @@ export default function BrandRows() {
                                 </span>
                                 <div className="mt-4 px-2 flex justify-between items-center">
                                     <div>
-                                        <h3 className="text-sm text-gray-700 font-medium truncate">
+                                        <h3 className="text-sm text-gray-700 font-medium truncate sm:max-w-max max-w-30">
                                             {product.title}
                                         </h3>
                                         <p className="text-xs text-gray-500">{product.brand}</p>
