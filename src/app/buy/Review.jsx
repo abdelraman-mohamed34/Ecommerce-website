@@ -11,7 +11,11 @@ export default function Review() {
         if (saved) setProduct(JSON.parse(saved))
     }, [])
 
-    const counter = useSelector((state) => state.counter.value)
+    const quantity = useSelector(state => {
+        if (!product) return 1
+        return state.counter.quantities[product.id] || 1
+    })
+
     const { colors, color } = useSelector((state) => state.theme)
     const theme = colors[color]
 
@@ -39,7 +43,7 @@ export default function Review() {
                         <div className="flex flex-col md:items-end justify-between gap-2">
                             <p className={`text-lg font-bold ${theme.accent}`}>${product.price}</p>
                             <span className="text-sm opacity-80 font-medium">
-                                Quantity: <span className={theme.text}>{counter}</span>
+                                Quantity: <span className={theme.text}>{quantity}</span>
                             </span>
                         </div>
                     </div>

@@ -2,36 +2,22 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Quantity from '../details/Quantity'
-import { RiMastercardFill } from "react-icons/ri";
-import { RiVisaLine } from "react-icons/ri";
-import { FaPaypal } from "react-icons/fa";
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
 export default function OrderSummary() {
     const [product, setProduct] = useState(null)
-    const [quantity, setQuantity] = useState(1)
-    const [paymentMethod, setPaymentMethod] = useState('visa')
-    const [cardNumber, setCardNumber] = useState('')
-    const [expiry, setExpiry] = useState('')
-    const [cvc, setCvc] = useState('')
-    const counter = useSelector((state) => state.counter.value)
+    const quantity = useSelector(state => {
+        if (!product) return 1
+        return state.counter.quantities[product.id] || 1
+    })
 
     useEffect(() => {
         const saved = localStorage.getItem('clickedProduct')
         if (saved) setProduct(JSON.parse(saved))
     }, [])
 
-    const handleQuantityChange = (newQty) => setQuantity(newQty)
-
-    const totalPrice = product ? (product.price * counter).toFixed(2) : 0
-
-    const paymentOptions = [
-        { id: 'visa', icon: <RiVisaLine /> },
-        { id: 'mastercard', icon: <RiMastercardFill /> },
-        { id: 'paypal', icon: <FaPaypal /> },
-    ]
-
+    const totalPrice = product ? (product.price * quantity).toFixed(2) : 0
     const { colors, color } = useSelector((state) => state.theme)
     const theme = colors[color]
 
@@ -40,10 +26,10 @@ export default function OrderSummary() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`w-full h-full sm:rounded-xl p-6 relative transition-all duration-300 
+            className={`w-full h-full sm:rounded-xl p-6 relative
             ${theme.cardBg} ${theme.cardText}  ${theme.border_small}`}
         >
-            <h2 className={`text-xl font-bold mb-4  pb-3 ${theme.text} ${theme.bottomBorder}`}>
+            <h2 className={`text-xl font-bold mb-4 pb-3 ${theme.text} ${theme.bottomBorder}`}>
                 Order Summary
             </h2>
 
@@ -87,7 +73,7 @@ export default function OrderSummary() {
                     {/* Quantity */}
                     <div className="flex items-center justify-between">
                         <span className="text-sm font-medium opacity-90">Quantity</span>
-                        <Quantity value={quantity} onChange={handleQuantityChange} />
+                        <Quantity value={quantity} />
                     </div>
 
                     {/* Divider */}

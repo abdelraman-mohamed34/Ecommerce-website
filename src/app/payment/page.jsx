@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { RiMastercardFill, RiVisaLine } from 'react-icons/ri'
 import { FaPaypal } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import Visa from './Visa'
 
 export default function PaymentPage() {
     const [card, setCard] = useState({
@@ -13,12 +14,15 @@ export default function PaymentPage() {
         expiry: '',
         cvv: '',
     })
+
     const [errors, setErrors] = useState({})
     const [isProcessing, setIsProcessing] = useState(false)
     const [product, setProduct] = useState(null)
-    const counter = useSelector((state) => state.counter.value)
+    const quantity = useSelector(state => {
+        if (!product) return 1
+        return state.counter.quantities[product.id] || 1
+    })
     const router = useRouter()
-
     const { colors, color } = useSelector((state) => state.theme)
     const theme = colors[color]
 
@@ -50,7 +54,7 @@ export default function PaymentPage() {
         }, 2000)
     }
 
-    const totalPrice = product ? (product.price * counter).toFixed(2) : 0
+    const totalPrice = product ? (product.price * quantity).toFixed(2) : 0
 
     return (
         <div className={`min-h-screen grid grid-cols-1 xl:grid-cols-[1fr_35rem] lg:grid-cols-2 transition-all duration-500 ${theme.bg}`}>
@@ -60,13 +64,13 @@ export default function PaymentPage() {
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className={`sm:shadow-2xl sm:rounded-3xl sm:p-10 p-5 w-full h-full transition-all duration-300`}
+                    className={`sm:p-10 p-5 w-full h-full transition-all duration-300`}
                 >
                     <h2 className={`sm:text-4xl text-3xl font-extrabold ${theme.accent} sm:mb-8 mb-5 text-center tracking-tight`}>
                         Payment Details
                     </h2>
 
-                    <form className="space-y-6" onSubmit={handleSubmit} noValidate>
+                    <form className="sm:space-y-6 space-y-3" onSubmit={handleSubmit} noValidate>
                         {/* Cardholder Name */}
                         <div>
                             <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
@@ -78,9 +82,9 @@ export default function PaymentPage() {
                                 value={card.name}
                                 onChange={(e) => setCard({ ...card, name: e.target.value })}
                                 placeholder="Enter the name on your card"
-                                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none ${theme.cardBg}`}
+                                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} sm:rounded-xl rounded-md p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none ${theme.cardBg}`}
                             />
-                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                            {errors.name && <p className="text-red-500 sm:text-sm text-xs mt-1">{errors.name}</p>}
                         </div>
 
                         {/* Card Number */}
@@ -98,52 +102,63 @@ export default function PaymentPage() {
                                     setCard({ ...card, number: value })
                                 }}
                                 placeholder="XXXX XXXX XXXX XXXX"
-                                className={`w-full border ${errors.number ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
+                                className={`w-full border ${errors.number ? 'border-red-500' : 'border-gray-300'} sm:rounded-xl rounded-md p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
                             />
-                            {errors.number && <p className="text-red-500 text-sm mt-1">{errors.number}</p>}
+                            {errors.number && <p className="text-red-500 sm:text-sm text-xs mt-1">{errors.number}</p>}
                         </div>
 
-                        {/* Expiry & CVV */}
-                        <div className="flex gap-5">
-                            <div className="flex-1">
-                                <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
-                                    Expiry Date
-                                </label>
-                                <input
-                                    type="text"
-                                    name="expiry"
-                                    value={card.expiry}
-                                    onChange={(e) => {
-                                        let v = e.target.value.replace(/\D/g, '').slice(0, 4)
-                                        if (v.length >= 3) v = `${v.slice(0, 2)}/${v.slice(2)}`
-                                        const [month] = v.split('/')
-                                        if (month && parseInt(month) > 12) v = `12/${v.slice(3)}`
-                                        if (month === '00') v = `01/${v.slice(3)}`
-                                        setCard({ ...card, expiry: v })
-                                    }}
-                                    placeholder="MM/YY"
-                                    className={`w-full border ${errors.expiry ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
-                                />
-                                {errors.expiry && <p className="text-red-500 text-sm mt-1">{errors.expiry}</p>}
+                        <div className='flex gap-6'>
+                            <div className='xl:flex lg:hidden sm:flex hidden w-full'>
+                                <Visa name={card.name} expiry={card.expiry} number={card.number} />
                             </div>
 
-                            <div className="flex-1">
-                                <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
-                                    CVV
-                                </label>
-                                <input
-                                    type="text"
-                                    name="cvv"
-                                    value={card.cvv}
-                                    onChange={(e) => {
-                                        const v = e.target.value.replace(/\D/g, '').slice(0, 3)
-                                        setCard({ ...card, cvv: v })
-                                    }}
-                                    placeholder="123"
-                                    className={`w-full border ${errors.cvv ? 'border-red-500' : 'border-gray-300'} rounded-xl p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
-                                />
-                                {errors.cvv && <p className="text-red-500 text-sm mt-1">{errors.cvv}</p>}
+                            {/* Expiry & CVV */}
+                            <div className="flex xl:flex-col lg:flex-row sm:flex-col gap-5 min-w-70 w-full">
+                                <div className="flex-1">
+                                    <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
+                                        Expiry Date
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="expiry"
+                                        value={card.expiry}
+                                        onChange={(e) => {
+                                            let v = e.target.value.replace(/\D/g, '').slice(0, 4)
+                                            if (v.length >= 3) v = `${v.slice(0, 2)}/${v.slice(2)}`
+                                            const [month] = v.split('/')
+                                            if (month && parseInt(month) > 12) v = `12/${v.slice(3)}`
+                                            if (month === '00') v = `01/${v.slice(3)}`
+                                            setCard({ ...card, expiry: v })
+                                        }}
+                                        placeholder="MM/YY"
+                                        className={`w-full border ${errors.expiry ? 'border-red-500' : 'border-gray-300'} sm:rounded-xl rounded-md p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
+                                    />
+                                    {errors.expiry && <p className="text-red-500 sm:text-sm text-xs mt-1">{errors.expiry}</p>}
+                                </div>
+
+                                <div className="flex-1">
+                                    <label className={`block text-sm font-semibold mb-2 ${theme.text}`}>
+                                        CVV
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="cvv"
+                                        value={card.cvv}
+                                        onChange={(e) => {
+                                            const v = e.target.value.replace(/\D/g, '').slice(0, 3)
+                                            setCard({ ...card, cvv: v })
+                                        }}
+                                        placeholder="123"
+                                        className={`w-full border ${errors.cvv ? 'border-red-500' : 'border-gray-300'} sm:rounded-xl rounded-md p-3.5 ${theme.cardText} placeholder-gray-400 shadow-sm focus:ring-4 focus:ring-green-600/30 focus:border-green-700 transition-all duration-200 outline-none tracking-widest ${theme.cardBg}`}
+                                    />
+                                    {errors.cvv && <p className="text-red-500 sm:text-sm text-xs mt-1">{errors.cvv}</p>}
+                                </div>
                             </div>
+                        </div>
+
+                        {/* Card Preview */}
+                        <div className='xl:hidden lg:block sm:hidden'>
+                            <Visa name={card.name} expiry={card.expiry} number={card.number} />
                         </div>
 
                         {/* Pay Now Button */}
@@ -158,37 +173,13 @@ export default function PaymentPage() {
                         </motion.button>
                     </form>
 
-                    {/* Card Preview */}
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.6 }}
-                        className="bg-gradient-to-r from-green-700 to-green-500 text-white rounded-3xl w-full sm:h-56 p-6 shadow-2xl relative mt-12"
-                    >
-                        <div className="text-sm mb-2 uppercase tracking-wide text-green-100">
-                            Card Preview
-                        </div>
-                        <div className="text-2xl font-mono tracking-[0.3em] mb-8">
-                            {card.number || '#### #### #### ####'}
-                        </div>
-                        <div className="flex justify-between items-end absolute bottom-6 left-6 right-6">
-                            <div className="text-sm uppercase font-medium">
-                                {card.name || 'Cardholder Name'}
-                            </div>
-                            <div className="text-sm">{card.expiry || 'MM/YY'}</div>
-                        </div>
-                    </motion.div>
+
                 </motion.div>
-            </div>
+            </div >
 
             {/* Order Summary */}
-            <div className={`hidden lg:flex flex-col items-center justify-center h-[92vh] ${theme.nav} sticky top-17`}>
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className={`w-full h-full p-6 relative ${theme.cardBg} ${theme.cardText}`}
-                >
+            <div div className={`hidden lg:flex flex-col items-center justify-center h-[92vh] ${theme.nav} sticky top-17`}>
+                <div className={`w-full h-full p-6 relative shadow-lg ${theme.cardBg} ${theme.cardText}`}>
                     <h2 className={`text-xl font-bold mb-4 pb-3 border-b border-gray-300 ${theme.text}`}>
                         Order Summary
                     </h2>
@@ -221,8 +212,8 @@ export default function PaymentPage() {
                     ) : (
                         <p className="text-gray-500 text-center">No product selected.</p>
                     )}
-                </motion.div>
+                </div>
             </div>
-        </div>
+        </div >
     )
 }
