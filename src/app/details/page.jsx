@@ -36,8 +36,6 @@ export default function Details() {
         show: { opacity: 1, y: 0 }
     }
 
-    console.log(product)
-
     const outOfStock = product?.availabilityStatus !== 'In Stock'
     const stock = !outOfStock ? product?.stock : 0
     const priceBeforeDiscount = product?.price + product?.price * product?.discountPercentage / 100

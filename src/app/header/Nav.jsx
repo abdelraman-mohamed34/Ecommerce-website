@@ -146,12 +146,11 @@ export default function Nav() {
                         <div className={`w-full flex justify-start items-center ${theme.topBorder} pt-3 px-5`}>
                             <ThemeToggle />
                         </div>
-
                     </DialogPanel>
                 </div>
             </Dialog >
 
-            <header className={`relative ${theme.cardBg} z-[1000]`}>
+            <header className={`relative ${theme.cardBg} z-[2000]`}>
                 <nav aria-label="Top" className="mx-auto max-w-7xl xl:p-0 px-5">
                     <div>
                         <div className="flex h-16 items-center">
@@ -208,7 +207,7 @@ export default function Nav() {
                                                 {({ close }) => (
                                                     <>
                                                         <div aria-hidden="true" className={`absolute inset-0 top-1/2 shadow-sm`} />
-                                                        <div className={`relative ${theme.slider}`}>
+                                                        <div className={`relative z-[2000] ${theme.slider}`}>
                                                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                                                 <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                                                     <div className="col-start-2 grid grid-cols-2 gap-x-8">

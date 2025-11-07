@@ -41,7 +41,6 @@ export default function Page() {
             setSubmitted(false)
             return
         }
-        console.log(formData)
         setSubmitted(true)
         setFormData({ name: "", email: "", subject: "", message: "" })
         setTimeout(() => setSubmitted(false), 4000)

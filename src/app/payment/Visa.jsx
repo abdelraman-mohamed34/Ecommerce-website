@@ -16,7 +16,7 @@ function Visa(props) {
             </div>
 
             <div className='flex flex-col'>
-                <div className="text-sm mb-2 uppercase tracking-wide text-green-100 z-10 flex justify-between gap-2 charm-bold">
+                <div className="text-sm mb-2 uppercase tracking-wide text-green-100 z-[1] flex justify-between gap-2 charm-bold">
                     <span className='rotate-90'>
                         <FaWifi size={25} />
                     </span>

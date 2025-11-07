@@ -12,7 +12,6 @@ function Comments() {
     }, [])
     const { colors, color } = useSelector((state) => state.theme)
     const theme = colors[color]
-    console.log(product?.reviews)
     if (!product?.reviews) return;
     return (
         <div className={`flex flex-col items-center py-10 px-4 sm:rounded-lg ${theme.cardBg}`}>
