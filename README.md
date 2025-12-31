@@ -7,7 +7,7 @@ Designed for speed, responsiveness, and interactive user experience.
 
 ## 🌐 Live Demo
 
-🔗 https://ecommerce-website-snowy-five.vercel.app/ :contentReference[oaicite:1]{index=1}
+🔗 https://ecommerce-website-snowy-five.vercel.app/
 
 ---
 
